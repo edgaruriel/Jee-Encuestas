@@ -2,6 +2,8 @@ package fmat.jee.projectQuiz.model.servicio;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import fmat.jee.projectQuiz.model.Usuario;
 import fmat.jee.projectQuiz.model.dao.DaoUsuario;
 
@@ -16,7 +18,7 @@ public class ServicioUsuario {
 		try {
 			usuaro = dao.consultar(condicion);
 			int id = usuaro.getId();
-			if(id!=0){			
+			if(id!=0){
 				resp = true;
 			}else{
 				resp = false;
@@ -30,7 +32,13 @@ public class ServicioUsuario {
 	}
 	
 	
-	public Usuario crearUsuario(){
-		return null;
+	public boolean crearUsuario(Usuario usuario){
+		DaoUsuario dao = new DaoUsuario();
+		try{
+			dao.agregar(usuario);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

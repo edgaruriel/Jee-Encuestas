@@ -21,6 +21,8 @@
 	<input type="submit" value="Aceptar">
 </form>
 
+<a href="crearUsuario.jsp">Crear Usuario</a>
+
 <c:choose>
 <c:when test="${requestScope.error != null}">
 	<font color="red">Usuario o Contraseña incorrectas</font>

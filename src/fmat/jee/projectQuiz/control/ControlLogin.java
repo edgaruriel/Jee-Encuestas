@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
 
@@ -44,7 +45,6 @@ public class ControlLogin extends HttpServlet {
 
 	protected void validarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		
 		String usuario = request.getParameter("usuario");
 		String contrasenia = request.getParameter("contrasenia");	
 		

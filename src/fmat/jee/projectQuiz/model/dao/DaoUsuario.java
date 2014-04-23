@@ -6,14 +6,38 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 
+import fmat.jee.projectQuiz.model.Rol;
 import fmat.jee.projectQuiz.model.Usuario;
 
 public class DaoUsuario extends AbstractDao<Usuario>{
 
 	@Override
-	public boolean agregar(Usuario entidad) throws SQLException{
+	public boolean agregar(Usuario usuario) throws SQLException{
 		// TODO Auto-generated method stub
-		return false;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String nombre=usuario.getNombre();
+		String pApellido=usuario.getPrimerApellido();
+		String sApellido=usuario.getSegundoApellido();
+		String nombreUsuario=usuario.getNombreUsuario();
+		String contrasenia=usuario.getContrasena();
+		String correo = usuario.getCorreo();
+		Rol tipoUsuario=usuario.getRol();
+		int id = tipoUsuario.getId();
+		System.out.println(nombre+pApellido+sApellido+nombreUsuario+contrasenia+correo+tipoUsuario.getNombre());
+		boolean resultado=false;
+		try{
+		ResultSet rs = st.executeQuery("INSERT INTO usuario (nombre, primerApellido, segundoApellido, nombreUsuario, contrasena, correo, Rol_id) VALUES ('"+nombre+"','"+pApellido+"','"+sApellido+"','"+nombreUsuario+"','"+contrasenia+"','"+correo+"','"+id+"')");
+		if(rs.next()){
+			resultado= true;
+		}else{
+			resultado= false;
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return resultado;
 	}
 
 	@Override

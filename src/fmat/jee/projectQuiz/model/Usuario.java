@@ -10,6 +10,20 @@ public class Usuario {
 	private String correo;
 	private Rol rol;
 	
+	public Usuario() {
+	}
+	
+	public Usuario(String nombre, String primerApellido,
+			String segundoApellido, String nombreUsuario, String contrasena,
+			String correo, Rol rol) {
+		this.nombre = nombre;
+		this.primerApellido = primerApellido;
+		this.segundoApellido = segundoApellido;
+		this.nombreUsuario = nombreUsuario;
+		this.contrasena = contrasena;
+		this.correo = correo;
+		this.rol = rol;
+	}
 	public int getId() {
 		return id;
 	}

@@ -11,8 +11,9 @@
 <body bgcolor="#CEECF5">
 	<h1>
 	Bienvenido.
-	</h1>	
-	<a href="http://localhost:8080/LoginJstlTags/secondPage.jsp" >Salir</a>
+	</h1>
+	<a href="http://localhost:8080/ProyectoEncuestas/editarCuenta">Editar Cuenta</a>
+	<a href="secondPage.jsp" >Salir</a>
 </body>
 </html>
 

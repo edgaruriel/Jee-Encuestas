@@ -1,7 +1,6 @@
 package fmat.jee.projectQuiz.control;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,16 +11,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import fmat.jee.projectQuiz.model.Rol;
 import fmat.jee.projectQuiz.model.Usuario;
-import fmat.jee.projectQuiz.model.dao.DaoRol;
 import fmat.jee.projectQuiz.model.servicio.ServicioRol;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
 
 /**
- * Servlet implementation class crearUsuario
+ * Servlet implementation class actualizarDatos
  */
-@WebServlet("/crearUsuario")
-public class crearUsuario extends HttpServlet {
+@WebServlet("/actualizarDatos")
+public class actualizarDatos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public actualizarDatos() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,9 +59,9 @@ public class crearUsuario extends HttpServlet {
 		ServicioRol servicioRol = new ServicioRol();
 		Rol nuevoRol = servicioRol.obtenerRol(tipoUsuario);
 		
-		Usuario nuevoUsuario = new Usuario(nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
+		Usuario nuevoUsuario = new Usuario(1,nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
 		ServicioUsuario servicio = new ServicioUsuario();
-		if(servicio.crearUsuario(nuevoUsuario)){
+		if(servicio.actualizarUsuario(nuevoUsuario)){
 			if(dispatcher!=null){
 				dispatcher.forward(request, response);
 			}
@@ -66,6 +72,5 @@ public class crearUsuario extends HttpServlet {
 			}
 		}
 	}
-	
 
 }

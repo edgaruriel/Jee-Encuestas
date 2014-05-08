@@ -51,7 +51,7 @@ public class crearUsuario extends HttpServlet {
 		String correo = request.getParameter("correo");
 		String tipoUsuario = request.getParameter("tipoUsuario");
 		ServicioRol servicioRol = new ServicioRol();
-		Rol nuevoRol = servicioRol.obtenerRol(tipoUsuario);
+		Rol nuevoRol = servicioRol.obtenerRolPorId(Integer.parseInt(tipoUsuario));
 		
 		Usuario nuevoUsuario = new Usuario(nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
 		ServicioUsuario servicio = new ServicioUsuario();

@@ -1,7 +1,12 @@
 package fmat.jee.projectQuiz.model.servicio;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import fmat.jee.projectQuiz.model.Contacto;
 import fmat.jee.projectQuiz.model.Usuario;
 import fmat.jee.projectQuiz.model.dao.DaoUsuario;
 
@@ -11,13 +16,14 @@ public class ServicioUsuario {
 	public boolean validarUsuario(String usuario, String contrasenia){
 		boolean resp = false;
 		DaoUsuario dao = new DaoUsuario();
-		String condicion = "usuario.nombreUsuario = '"+ usuario +"' AND usuario.contrasena = '"+ contrasenia +"'";
+		String condicion = "nombreUsuario = '"+ usuario +"' AND contrasena = '"+ contrasenia +"'";
 		Usuario usuaro;
 		try {
 			usuaro = dao.consultar(condicion);
 			int id = usuaro.getId();
 			if(id!=0){
 				resp = true;
+				
 			}else{
 				resp = false;
 			}
@@ -71,4 +77,16 @@ public class ServicioUsuario {
 		}
 		return usuario;
 	}
+	
+	public Usuario obtenerUsuarioPorNombre(String nombre){
+		DaoUsuario dao = new DaoUsuario();
+		Usuario usuario = null;	
+		try{
+		usuario = dao.consultar("usuario.nombreUsuario= '"+nombre +"'");		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return usuario;
+	}
+
 }

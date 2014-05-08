@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
 
 /**
@@ -48,12 +50,18 @@ public class ControlLogin extends HttpServlet {
 		String usuario = request.getParameter("usuario");
 		String contrasenia = request.getParameter("contrasenia");	
 		
-		ServicioUsuario servicio = new ServicioUsuario();
-		boolean respuesta = false;
-		respuesta = servicio.validarUsuario(usuario, contrasenia);
+		ServicioUsuario servicioUsuario = new ServicioUsuario();
+		ServicioContactos servicioContactos = new ServicioContactos();
 		
-		if(respuesta){		
-			response.sendRedirect("firstPage.jsp");
+		boolean respuesta = false;
+		respuesta = servicioUsuario.validarUsuario(usuario, contrasenia);
+		
+		if(respuesta){
+		Usuario usuarioLogin =	servicioUsuario.obtenerUsuarioPorNombre(usuario);
+		usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
+			HttpSession session = request.getSession(true);
+			session.setAttribute("USUARIO", usuarioLogin);
+			response.sendRedirect("pageHome.jsp");
 		}else{
 			request.setAttribute("error", true);
 			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/index.jsp");

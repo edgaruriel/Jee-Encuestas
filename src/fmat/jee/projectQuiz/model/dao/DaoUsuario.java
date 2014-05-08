@@ -1,8 +1,10 @@
 package fmat.jee.projectQuiz.model.dao;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 import com.mysql.jdbc.Connection;
 
@@ -83,10 +85,11 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 		Connection conexion;
 		conexion = (Connection) AbstractDao.getConexion();		
 		java.sql.Statement st = conexion.createStatement();
-		
-		ResultSet rs = st.executeQuery("SELECT * FROM usuario WHERE "+condicion);
+		String Query = "SELECT * FROM usuario WHERE "+condicion;
+		ResultSet rs = st.executeQuery(Query);
 		Usuario usuario = new Usuario();
-		if(rs.next()){		
+		if(rs.next()){
+			//System.out.print(Query);
 			usuario.setId(rs.getInt("id"));
 			usuario.setNombre(rs.getString("nombre"));
 			usuario.setPrimerApellido(rs.getString("primerApellido"));
@@ -95,9 +98,11 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 			usuario.setNombreUsuario(rs.getString("nombreUsuario"));
 			usuario.setContrasena(rs.getString("contrasena"));
 			ServicioRol servicioRol = new ServicioRol();
-			Rol rol = servicioRol.obtenerRol(rs.getString("Rol_id"));
+			Rol rol = servicioRol.obtenerRolPorId(rs.getInt("Rol_id"));
 			usuario.setRol(rol);
+	
 		}else{
+			//System.out.print(Query);
 			usuario.setId(0);
 		}
 		return usuario;

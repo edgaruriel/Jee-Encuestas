@@ -1,5 +1,7 @@
 package fmat.jee.projectQuiz.model;
 
+import java.util.ArrayList;
+
 public class Usuario {
 	private int id;
 	private String nombre;
@@ -9,6 +11,8 @@ public class Usuario {
 	private String contrasena;
 	private String correo;
 	private Rol rol;
+	private ArrayList<Contacto> contactos;
+	
 	
 	public Usuario() {
 	}
@@ -86,5 +90,13 @@ public class Usuario {
 		this.rol = rol;
 	}
 	
+	public ArrayList<Contacto> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(ArrayList<Contacto> contactos) {
+		this.contactos = contactos;
+	}
+
 	
 }

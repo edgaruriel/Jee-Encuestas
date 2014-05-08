@@ -12,7 +12,10 @@
 	<h1>
 	Bienvenido.
 	</h1>
+	<a href="contactos.jsp">Contactos</a>
+	<br>
 	<a href="http://localhost:8080/ProyectoEncuestas/editarCuenta">Editar Cuenta</a>
+	<br>
 	<a href="secondPage.jsp" >Salir</a>
 </body>
 </html>

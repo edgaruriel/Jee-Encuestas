@@ -9,27 +9,27 @@
 </head>
 <body>
 		<h3>Editar Cuenta:</h3>
-	<form action="actualizarDatos" method="post">	
+	<form action="<%=request.getContextPath()%>/ControlUsuario?tipo=Actualizar&id=${sessionScope.USUARIO.id}" method="post">	
 	<br>
 		<label >Nombre(s):</label>
-		<input type="text" name="nombre" size="20" value="${sessionScope.nombre}">
+		<input type="text" name="nombre" size="20" value="${sessionScope.USUARIO.nombre}">
 		<br>
 		<label >Primer apellido::</label>
-		<input type="text" name="pApellido" size="20" value="${sessionScope.pApellido}">
+		<input type="text" name="pApellido" size="20" value="${sessionScope.USUARIO.primerApellido}">
 		<br>
 		<label >Segundo apellido::</label>
-		<input type="text" name="sApellido" size="20" value="${sessionScope.sApellido}">
+		<input type="text" name="sApellido" size="20" value="${sessionScope.USUARIO.segundoApellido}">
 		<br>
 		<label >Nombre de usuario:</label>
-		<input type="text" name="nombreUsuario" size="20" value="${sessionScope.nombreUsuario}">
+		<input type="text" name="nombreUsuario" size="20" value="${sessionScope.USUARIO.nombreUsuario}">
 		<br>	
 		<label>Contrase&ntilde;a:</label>
-		<input type="password" name="contrasenia" size="10" value="${sessionScope.contrasena}">		
+		<input type="password" name="contrasenia" size="10" value="${sessionScope.USUARIO.contrasena}">		
 		<br>
 		<label >Correo electr&oacute;nico:</label>
-		<input type="text" name="correo" size="20" value="${sessionScope.correo}">
+		<input type="text" name="correo" size="20" value="${sessionScope.USUARIO.correo}">
 		<br>
-		<c:out value="${sessionScope.rol}"></c:out>
+		<c:out value="${sessionScope.USUARIO.rol.nombre}"></c:out>
 		<input type="hidden" name="tipoUsuario" value="1">
 		<br>
 	<input type="submit" value="Actualizar Datos">

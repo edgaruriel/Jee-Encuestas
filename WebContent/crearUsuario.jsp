@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h3>Crear nuevo usuario</h3>
-	<form action="crearUsuario" method="post">	
+	<form action="<%=request.getContextPath()%>/ControlUsuario?tipo=Agregar" method="post">	
 	<br>
 		<label >Nombre(s):</label>
 		<input type="text" name="nombre" size="20">

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import fmat.jee.projectQuiz.model.Contacto;
 import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.dao.DaoContacto;
 import fmat.jee.projectQuiz.model.dao.DaoUsuario;
 
 public class ServicioUsuario {
@@ -87,6 +88,20 @@ public class ServicioUsuario {
 			e.printStackTrace();
 		}
 		return usuario;
+	}
+	
+	public boolean eliminarUsuario(int id){
+		DaoUsuario dao = new DaoUsuario();
+		boolean resultado = false;
+		String condicion = "id="+id;
+			try {
+				resultado = dao.eliminar(condicion);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				resultado = false;
+			}
+		return resultado;
 	}
 
 }

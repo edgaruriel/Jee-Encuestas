@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+
 import com.mysql.jdbc.Connection;
 
 import fmat.jee.projectQuiz.model.Rol;
@@ -43,7 +44,13 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 	@Override
 	public boolean eliminar(String condicion) throws SQLException{
 		// TODO Auto-generated method stub
-		return false;
+		boolean resultado = true;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String sql = "DELETE FROM usuario WHERE "+condicion;
+		st.executeUpdate(sql);
+		return resultado;
 	}
 
 	@Override

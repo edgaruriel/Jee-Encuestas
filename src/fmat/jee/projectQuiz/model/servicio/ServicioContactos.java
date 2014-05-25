@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import fmat.jee.projectQuiz.model.Contacto;
-import fmat.jee.projectQuiz.model.Usuario;
 import fmat.jee.projectQuiz.model.dao.DaoContacto;
+import fmat.jee.projectQuiz.model.dominio.Contacto;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 
 public class ServicioContactos {
 
@@ -27,26 +27,14 @@ public class ServicioContactos {
 		return contactos;
 	}
 	
-	public boolean agregarContacto(HttpServletRequest request){
-		String usuarioID = request.getParameter("usuarioId");
-		String nombre = request.getParameter("nombre");
-		String correo = request.getParameter("correo");
-		
-		Contacto contacto = new Contacto();
-		contacto.setNombre(nombre);
-		contacto.setCorreo(correo);
-		contacto.setUsuarioId(Integer.parseInt(usuarioID));
+	public boolean agregarContacto(Contacto contacto){
 		
 		DaoContacto dao = new DaoContacto();
 		boolean resultado = false;
 		try {
 			if(dao.agregar(contacto)){
 				resultado = true;
-				ArrayList<Contacto> nuevaLista = obtenerContactos(Integer.parseInt(usuarioID));
-				HttpSession session = request.getSession(true);
-				Usuario usuario = (Usuario) session.getAttribute("USUARIO");
-				usuario.setContactos(nuevaLista);
-				session.setAttribute("USUARIO", usuario);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

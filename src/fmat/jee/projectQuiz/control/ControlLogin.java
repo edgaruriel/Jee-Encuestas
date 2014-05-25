@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
 
@@ -42,30 +42,66 @@ public class ControlLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		validarUsuario(request, response);
+		String control = request.getParameter("tipo");
+		
+		switch(control){
+		case "LogIn":
+			LogIn(request, response);
+			break;
+		case "LogOut":
+			LogOut(request, response);
+			break;
+		default:
+			paginaDefault(request,response);
+			break;
+		}
+		
+		
+	}
+	
+	public void paginaDefault(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		dispatcher.forward(request, response);
 	}
 
-	protected void validarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected boolean validarUsuario(String usuario, String contrasenia){
+		
+		boolean respuesta = false;
+		ServicioUsuario servicioUsuario = new ServicioUsuario();
+		
+		respuesta = servicioUsuario.validarUsuario(usuario, contrasenia);
+		
+		return respuesta;
+	}
+	
+	public void LogIn(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		response.setContentType("text/html");
 		String usuario = request.getParameter("usuario");
 		String contrasenia = request.getParameter("contrasenia");	
 		
-		ServicioUsuario servicioUsuario = new ServicioUsuario();
-		ServicioContactos servicioContactos = new ServicioContactos();
 		
-		boolean respuesta = false;
-		respuesta = servicioUsuario.validarUsuario(usuario, contrasenia);
 		
+		boolean respuesta = validarUsuario(usuario, contrasenia);
 		if(respuesta){
-		Usuario usuarioLogin =	servicioUsuario.obtenerUsuarioPorNombre(usuario);
-		usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
-			HttpSession session = request.getSession(true);
-			session.setAttribute("USUARIO", usuarioLogin);
-			response.sendRedirect("pageHome.jsp");
-		}else{
-			request.setAttribute("error", true);
-			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/index.jsp");
-			dispatcher.forward(request, response);	
-		}
+			ServicioUsuario servicioUsuario = new ServicioUsuario();
+			ServicioContactos servicioContactos = new ServicioContactos();
+			
+			Usuario usuarioLogin =	servicioUsuario.obtenerUsuarioPorNombre(usuario);
+			usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
+				HttpSession session = request.getSession(true);
+				session.setAttribute("USUARIO", usuarioLogin);
+				response.sendRedirect("pageHome.jsp");
+			}else{
+				request.setAttribute("error", true);
+				RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/index.jsp");
+				dispatcher.forward(request, response);	
+			}
+		
+	}
+	
+	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		HttpSession session = request.getSession(true);
+		session.invalidate();
+		response.sendRedirect("index.jsp");
 	}
 }

@@ -1,4 +1,4 @@
-package fmat.jee.projectQuiz.model;
+package fmat.jee.projectQuiz.model.dominio;
 
 import java.util.ArrayList;
 

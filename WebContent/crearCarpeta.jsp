@@ -4,21 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Crear carpeta personal</title>
 </head>
 <body>
-<h3>Crear nuevo contacto</h3>
-	<form action="<%=request.getContextPath()%>/ControlContacto?tipo=Agregar" method="post">	
+	
+<h3>Crear nueva carpeta personal</h3>
+	<form action="<%=request.getContextPath()%>/ControlCarpeta?tipo=Agregar" method="post">	
 	<br>
 		<label >Nombre(s):</label>
 		<input type="text" name="nombre" id="nombre" size="20">
-		<br>	
-		<label >Correo electr&oacute;nico:</label>
-		<input type="text" name="correo" id="correo" size="20">
-		<br>
+		<br>		
 		<input type="hidden" name="usuarioId" value="${sessionScope.USUARIO.id}">
 		<br>
 	<input type="submit" value="Agregar">
 </form>
+
 </body>
 </html>

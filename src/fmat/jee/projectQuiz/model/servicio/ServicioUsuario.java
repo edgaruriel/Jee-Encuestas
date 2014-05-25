@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import fmat.jee.projectQuiz.model.Contacto;
-import fmat.jee.projectQuiz.model.Usuario;
 import fmat.jee.projectQuiz.model.dao.DaoContacto;
 import fmat.jee.projectQuiz.model.dao.DaoUsuario;
+import fmat.jee.projectQuiz.model.dominio.Contacto;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 
 public class ServicioUsuario {
 	

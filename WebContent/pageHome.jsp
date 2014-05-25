@@ -10,16 +10,21 @@
 <title>Inicio de sesión</title>
 </head>
 <body bgcolor="#CEECF5">
+	<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>
+	<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
 	<h1>
-	Bienvenido.
+	Bienvenido <c:out value="${user.nombre}"/> 
 	</h1>
-	<a href="contactos.jsp">Contactos</a>
 	<br>
-	<a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Editar Cuenta</a>
+<h2><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h2>	
+	<br>
+<h2><a href="contactos.jsp">Mis contactos</a> </h2>
+	<br>
+<h2><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h2>
 	<br>
 	<a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Eliminar&id=${sessionScope.USUARIO.id}">Eliminar Cuenta</a>
-	<br>
-	<a href="secondPage.jsp" >Salir</a>
+	<br> 
+	
 </body>
 </html>
 

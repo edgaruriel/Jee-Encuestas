@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fmat.jee.projectQuiz.model.Contacto;
-import fmat.jee.projectQuiz.model.Rol;
-import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.dominio.Contacto;
+import fmat.jee.projectQuiz.model.dominio.Rol;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
 import fmat.jee.projectQuiz.model.servicio.ServicioRol;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;

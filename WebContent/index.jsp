@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="ControlLogin" method="post">	
+<form action="ControlLogin?tipo=LogIn" method="post">	
 	<br>
 		<label >Usuario:</label>
 		<input type="text" name="usuario" size="20">

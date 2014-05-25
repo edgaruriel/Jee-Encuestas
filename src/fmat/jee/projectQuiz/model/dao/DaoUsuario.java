@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 
 
+
 import com.mysql.jdbc.Connection;
 
-import fmat.jee.projectQuiz.model.Rol;
-import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.dominio.Rol;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioRol;
 
 public class DaoUsuario extends AbstractDao<Usuario>{

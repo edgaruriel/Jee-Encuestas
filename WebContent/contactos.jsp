@@ -9,7 +9,9 @@
 <title>Lista de contactos</title>
 </head>
 <body>
-
+<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
+<br>
+<br>
 <label for="buscar">Buscar: </label>
 <input id="buscar" name="buscar" value="">
 <br>

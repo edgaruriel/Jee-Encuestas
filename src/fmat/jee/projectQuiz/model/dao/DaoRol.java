@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 
-import fmat.jee.projectQuiz.model.Rol;
-import fmat.jee.projectQuiz.model.Usuario;
+import fmat.jee.projectQuiz.model.dominio.Rol;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 
 public class DaoRol extends AbstractDao<Rol>{
 

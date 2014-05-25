@@ -1,27 +1,23 @@
 package fmat.jee.projectQuiz.control;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
-
 /**
- * Servlet implementation class AgregarContacto
+ * Servlet implementation class ControlEncuesta
  */
-@WebServlet("/AgregarContacto")
-public class AgregarContacto extends HttpServlet {
+@WebServlet("/ControlEncuesta")
+public class ControlEncuesta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AgregarContacto() {
+    public ControlEncuesta() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +27,7 @@ public class AgregarContacto extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		doPost(request,response);
 	}
 
 	/**
@@ -39,21 +35,23 @@ public class AgregarContacto extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doIt(request, response);
+	}
+	
+	protected void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
-	protected void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	
-		ServicioContactos servicioContactos = new ServicioContactos();
-	boolean respuesta =	servicioContactos.agregarContacto(request);
-		if(respuesta){
-			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/contactos.jsp");
-			dispatcher.forward(request, response);
-		}else{
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/crearContacto.jsp");
-			dispatcherMal.forward(request, response);
-		}
+	public void agregar(){
+		
 	}
+	
+	public void eliminar(){
+		
+	}
+	
+	public void ver(){
+		
+	}
+	
 
 }

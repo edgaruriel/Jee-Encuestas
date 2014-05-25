@@ -2,8 +2,8 @@ package fmat.jee.projectQuiz.model.servicio;
 
 import java.sql.SQLException;
 
-import fmat.jee.projectQuiz.model.Rol;
 import fmat.jee.projectQuiz.model.dao.DaoRol;
+import fmat.jee.projectQuiz.model.dominio.Rol;
 
 public class ServicioRol {
 

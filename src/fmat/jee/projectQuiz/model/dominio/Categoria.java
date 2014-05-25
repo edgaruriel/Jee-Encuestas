@@ -1,7 +1,6 @@
-package fmat.jee.projectQuiz.model;
+package fmat.jee.projectQuiz.model.dominio;
 
-public class Rol {
-
+public class Categoria {
 	private int id;
 	private String nombre;
 	

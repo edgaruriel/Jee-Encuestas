@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 
-import fmat.jee.projectQuiz.model.Contacto;
+import fmat.jee.projectQuiz.model.dominio.Contacto;
 
 public class DaoContacto extends AbstractDao<Contacto>{
 

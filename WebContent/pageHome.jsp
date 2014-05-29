@@ -18,6 +18,8 @@
 	<br>
 <h2><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h2>	
 	<br>
+	<h2><a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=Agregar&id=${sessionScope.USUARIO.id}">Crear Encuesta</a></h2>
+	<br>
 <h2><a href="contactos.jsp">Mis contactos</a> </h2>
 	<br>
 <h2><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h2>

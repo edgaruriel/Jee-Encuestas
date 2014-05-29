@@ -1,6 +1,6 @@
 package fmat.jee.projectQuiz.model.dominio;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class Encuesta {
@@ -25,8 +25,6 @@ public class Encuesta {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	
 	
 	public Date getFechaInicio() {
 		return fechaInicio;

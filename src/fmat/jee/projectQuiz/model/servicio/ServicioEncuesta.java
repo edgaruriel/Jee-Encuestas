@@ -6,18 +6,48 @@ import fmat.jee.projectQuiz.model.dao.DaoEncuesta;
 import fmat.jee.projectQuiz.model.dominio.Encuesta;
 
 public class ServicioEncuesta {
+	public boolean crearEncuesta(Encuesta encuesta){
+		DaoEncuesta dao = new DaoEncuesta();
+		boolean resultado=false;
+		try{
+			if(dao.agregar(encuesta)){
+				resultado=true;
+			}
+		}catch(SQLException e){
+			System.out.println("Error en crearEncuesta");
+			e.printStackTrace();
+			resultado=false;
+		}
+		return resultado;
+	}
 	
-	public Encuesta obtenerEncuestaPor(int id){
+	public int obtenerUltimaEncuesta(){
+		DaoEncuesta dao = new DaoEncuesta();
+		int ultima = 0;
+		try{
+			if(dao.obtenerUltimoId()!=0){
+				ultima = dao.obtenerUltimoId();
+			}
+		}catch(SQLException e){
+			System.out.println("Error en obtener ultimo id");
+			e.printStackTrace();
+			ultima=0;
+		}
+		return ultima;
+	}
+	
+	public boolean validarEncuestaPor(String correo){
 		DaoEncuesta daoEncuesta = new DaoEncuesta();
-		Encuesta encuesta = null;
-		
+		boolean respuesta = false;
 		try {
-			encuesta = daoEncuesta.consultar("id="+id);
+			respuesta =	daoEncuesta.consultarContestado("correo ='"+correo+"'");
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return encuesta;
+		
+		return respuesta;
 	}
 	
 	public boolean agregarEncuestaContestada(Encuesta encuesta){
@@ -37,18 +67,17 @@ public class ServicioEncuesta {
 		return respuesta;
 	}
 	
-	public boolean validarEncuestaPor(String correo){
+	public Encuesta obtenerEncuestaPor(int id){
 		DaoEncuesta daoEncuesta = new DaoEncuesta();
-		boolean respuesta = false;
-		try {
-			respuesta =	daoEncuesta.consultarContestado("correo ='"+correo+"'");
+		Encuesta encuesta = null;
 		
+		try {
+			encuesta = daoEncuesta.consultar("id="+id);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return respuesta;
+		return encuesta;
 	}
-
+	
 }

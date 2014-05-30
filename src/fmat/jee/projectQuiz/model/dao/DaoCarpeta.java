@@ -40,7 +40,7 @@ public class DaoCarpeta extends AbstractDao<Carpeta>{
 		java.sql.Statement st = conexion.createStatement();
 		String [] condicionArray = condicion.split("=");
 		int idCarpeta = Integer.parseInt(condicionArray[1]);
-		String condicionEliminarEncuesta = "CapetasPersonal_id="+idCarpeta;
+		String condicionEliminarEncuesta = "CarpetasPersonal_id="+idCarpeta;
 		
 		DaoEncuesta daoEncuesta = new DaoEncuesta();
 		daoEncuesta.eliminar(condicionEliminarEncuesta);
@@ -83,7 +83,7 @@ public class DaoCarpeta extends AbstractDao<Carpeta>{
 			carpeta.setNombre(rs.getString("nombre"));
 			carpeta.setIdUsuario(rs.getInt("Usuario_id"));
 			DaoEncuesta daoEncuesta = new DaoEncuesta();
-			String condicionEncuesta = "CapetasPersonal_id="+rs.getInt("id");
+			String condicionEncuesta = "CarpetasPersonal_id="+rs.getInt("id");
 			carpeta.setEncuestas(daoEncuesta.consultarTodos(condicionEncuesta));
 			
 			carpetas.add(carpeta);			

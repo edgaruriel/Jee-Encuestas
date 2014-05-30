@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 
+import fmat.jee.projectQuiz.model.dominio.Carpeta;
 import fmat.jee.projectQuiz.model.dominio.Categoria;
 
 public class DaoCategoria extends AbstractDao<Categoria>{
@@ -47,7 +48,19 @@ public class DaoCategoria extends AbstractDao<Categoria>{
 	public ArrayList<Categoria> consultarTodos(String condicion)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "SELECT * FROM categorias";
+		ResultSet rs = st.executeQuery(Query);
+		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+		while(rs.next()){
+			Categoria categoria = new Categoria();
+			categoria.setId(rs.getInt("id"));
+			categoria.setNombre(rs.getString("nombre"));
+			categorias.add(categoria);			
+		}	
+		return categorias;
 	}
 
 	@Override

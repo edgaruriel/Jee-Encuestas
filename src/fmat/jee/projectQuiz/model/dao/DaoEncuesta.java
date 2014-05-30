@@ -3,54 +3,54 @@ package fmat.jee.projectQuiz.model.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.mysql.jdbc.Connection;
 
+import fmat.jee.projectQuiz.model.dominio.Categoria;
 import fmat.jee.projectQuiz.model.dominio.Encuesta;
 import fmat.jee.projectQuiz.model.dominio.OpcionMultiple;
 import fmat.jee.projectQuiz.model.dominio.Pregunta;
+import fmat.jee.projectQuiz.model.dominio.Rol;
+import fmat.jee.projectQuiz.model.dominio.Usuario;
 
 public class DaoEncuesta extends AbstractDao<Encuesta>{
 
 	@Override
-	public boolean agregar(Encuesta entidad) throws SQLException {
+	public boolean agregar(Encuesta encuesta) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conexion;
-		conexion = (Connection) AbstractDao.getConexion();
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String nombre=encuesta.getNombre();
+		Categoria categoria = encuesta.getCategoria();
+		int idCategoria = categoria.getId();
+		int carpeta=encuesta.getIdCarpeta();
+		Date fechaInicio=encuesta.getFechaInicio();
+		Date fechaFin=encuesta.getFechaFin();
+		Usuario usuario = encuesta.getUsuario();
+		int idUsuario = usuario.getId();
+		ArrayList<Pregunta> arrayPreguntas = encuesta.getPreguntas();
+		boolean resultado=false;
+		try{
+		st.executeUpdate("INSERT INTO encuesta (nombre, fechaInicio, fechaFin, Usuario_id, CarpetasPersonal_id, Categorias_id) VALUES ('"+nombre+"','2014-05-28','2014-05-31',"+idUsuario+","+carpeta+","+idCategoria+")",java.sql.Statement.RETURN_GENERATED_KEYS);
 		
-		String correo = entidad.getCorreo();
-		int idEncuesta = entidad.getId();
-		
-		ArrayList<Pregunta> preguntas = entidad.getPreguntas();
-		for(Pregunta pregunta : preguntas){
-			java.sql.Statement st = conexion.createStatement();
-			int idPregunta = pregunta.getId();
-		//	System.out.println("Pregunta: "+ pregunta.getPregunta());
-			if(pregunta.getTipoPregunta().getTipo().equals("ABIERTA")){
-		//		System.out.println("Respuesta: "+pregunta.getRespuesta());
-			String respuesta = pregunta.getRespuesta();
-			
-			String Query = "INSERT INTO respuesta (Preguntas_id, respuesta) VALUES ("+idPregunta+",'"+respuesta+"')";
-			st.executeUpdate(Query);
-			}else{
-				for(OpcionMultiple opcion: pregunta.getOpciones()){
-					if(opcion.isRespuesta()){
-					int idOpcionRespuesta = opcion.getId();
-					String Query = "INSERT INTO opcionmultiple_tiene_respuestas (OpcionesMultiples_id, Preguntas_id) VALUES ("+idOpcionRespuesta+","+idPregunta+")";
-					st.executeUpdate(Query);
-					
-					
-		//				System.out.println("Respuesta: "+opcion.getOpcion());
-					}
-				}
+		ResultSet r = st.getGeneratedKeys();
+		int id = 0;
+		DaoPregunta daopregunta = new DaoPregunta();
+		if (r.first()){
+			id = r.getInt(1);
+			for (Pregunta pregunta : arrayPreguntas) {
+				pregunta.setIdEncuesta(id);
+				daopregunta.agregar(pregunta);
 			}
 		}
-		
-		java.sql.Statement st = conexion.createStatement();
-		String Query = "INSERT INTO contestados (correo, Encuesta_id) VALUES ('"+correo+"',"+idEncuesta+")";
-		st.executeUpdate(Query);
-		
-		return true;
+		resultado=true;
+		}catch(Exception e){
+			e.printStackTrace();
+			resultado=false;
+		}
+		return resultado;
 	}
 
 	@Override
@@ -77,6 +77,19 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 	public boolean modificar(Encuesta entidad) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public int obtenerUltimoId() throws SQLException{
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "SELECT id FROM encuesta WHERE id=(SELECT max(id) FROM encuesta)";
+		ResultSet rs = st.executeQuery(Query);
+		if(rs.next()){
+			return rs.getInt("id");
+		}else{
+		return 0;
+		}
 	}
 
 	@Override
@@ -105,7 +118,7 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 			String condicionCategoria = "id="+rs.getInt("Categorias_id");
 			encuesta.setCategoria(daoCategoria.consultar(condicionCategoria));
 			
-			encuesta.setIdCarpeta(rs.getInt("CapetasPersonal_id"));
+			encuesta.setIdCarpeta(rs.getInt("CarpetasPersonal_id"));
 			
 			DaoPregunta daoPregunta = new DaoPregunta();
 			ArrayList<Pregunta> preguntas;
@@ -142,7 +155,7 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 			String condicionCategoria = "id="+rs.getInt("Categorias_id");
 			encuesta.setCategoria(daoCategoria.consultar(condicionCategoria));
 			
-			encuesta.setIdCarpeta(rs.getInt("CapetasPersonal_id"));
+			encuesta.setIdCarpeta(rs.getInt("CarpetasPersonal_id"));
 			
 			DaoPregunta daoPregunta = new DaoPregunta();
 			ArrayList<Pregunta> preguntas;

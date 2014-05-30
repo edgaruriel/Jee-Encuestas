@@ -90,6 +90,7 @@ public class ControlLogin extends HttpServlet {
 			usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
 				HttpSession session = request.getSession(true);
 				session.setAttribute("USUARIO", usuarioLogin);
+				session.setAttribute("preguntas", null);
 				response.sendRedirect("pageHome.jsp");
 			}else{
 				request.setAttribute("error", true);
@@ -100,7 +101,8 @@ public class ControlLogin extends HttpServlet {
 	}
 	
 	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
+		session.removeAttribute("preguntas");
 		session.invalidate();
 		response.sendRedirect("index.jsp");
 	}

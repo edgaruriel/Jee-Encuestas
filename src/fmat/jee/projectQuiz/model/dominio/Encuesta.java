@@ -11,6 +11,7 @@ public class Encuesta {
 	private Usuario usuario;
 	private Categoria categoria;
 	private int idCarpeta;
+	private String correo;
 	private ArrayList<Pregunta> preguntas;
 	
 	public int getId() {
@@ -28,6 +29,12 @@ public class Encuesta {
 	
 	
 	
+	public String getCorreo() {
+		return correo;
+	}
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
 	public Date getFechaInicio() {
 		return fechaInicio;
 	}

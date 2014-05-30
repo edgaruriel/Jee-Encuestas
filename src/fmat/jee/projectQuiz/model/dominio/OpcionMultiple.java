@@ -4,6 +4,7 @@ public class OpcionMultiple {
 	private int id;
 	private String opcion;
 	private int idPregunta;
+	private boolean respuesta;
 	
 	public int getId() {
 		return id;
@@ -22,6 +23,12 @@ public class OpcionMultiple {
 	}
 	public void setIdPregunta(int idPregunta) {
 		this.idPregunta = idPregunta;
+	}
+	public boolean isRespuesta() {
+		return respuesta;
+	}
+	public void setRespuesta(boolean respuesta) {
+		this.respuesta = respuesta;
 	}
 	
 	

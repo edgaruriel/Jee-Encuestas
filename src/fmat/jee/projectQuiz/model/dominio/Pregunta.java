@@ -7,6 +7,7 @@ public class Pregunta {
 	private TipoPregunta tipoPregunta;
 	private String pregunta;
 	private int idEncuesta;
+	private String respuesta;
 	private ArrayList<OpcionMultiple> opciones;
 	
 	public int getId() {
@@ -38,6 +39,12 @@ public class Pregunta {
 	}
 	public void setOpciones(ArrayList<OpcionMultiple> opciones) {
 		this.opciones = opciones;
+	}
+	public String getRespuesta() {
+		return respuesta;
+	}
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
 	}
 	
 	

@@ -24,6 +24,7 @@
 	<br>
 	<a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Eliminar&id=${sessionScope.USUARIO.id}">Eliminar Cuenta</a>
 	<br> 
+	<h2><a href="mail.jsp">Test enviar encuestas</a> </h2>	
 	
 </body>
 </html>

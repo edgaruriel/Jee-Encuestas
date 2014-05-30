@@ -29,7 +29,7 @@ public class DaoPregunta extends AbstractDao<Pregunta>{
 		int id = 0;
 		if (r.first()){
 			id = r.getInt(1);
-		} 
+		}
 		
 		//el tipo de pregunta es MULTIPLE 
 		if(idTipoPregunta == 2){

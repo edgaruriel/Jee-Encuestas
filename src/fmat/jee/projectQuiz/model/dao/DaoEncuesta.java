@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 
 import fmat.jee.projectQuiz.model.dominio.Encuesta;
+import fmat.jee.projectQuiz.model.dominio.OpcionMultiple;
 import fmat.jee.projectQuiz.model.dominio.Pregunta;
 
 public class DaoEncuesta extends AbstractDao<Encuesta>{
@@ -14,7 +15,42 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 	@Override
 	public boolean agregar(Encuesta entidad) throws SQLException {
 		// TODO Auto-generated method stub
-		return false;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();
+		
+		String correo = entidad.getCorreo();
+		int idEncuesta = entidad.getId();
+		
+		ArrayList<Pregunta> preguntas = entidad.getPreguntas();
+		for(Pregunta pregunta : preguntas){
+			java.sql.Statement st = conexion.createStatement();
+			int idPregunta = pregunta.getId();
+		//	System.out.println("Pregunta: "+ pregunta.getPregunta());
+			if(pregunta.getTipoPregunta().getTipo().equals("ABIERTA")){
+		//		System.out.println("Respuesta: "+pregunta.getRespuesta());
+			String respuesta = pregunta.getRespuesta();
+			
+			String Query = "INSERT INTO respuesta (Preguntas_id, respuesta) VALUES ("+idPregunta+",'"+respuesta+"')";
+			st.executeUpdate(Query);
+			}else{
+				for(OpcionMultiple opcion: pregunta.getOpciones()){
+					if(opcion.isRespuesta()){
+					int idOpcionRespuesta = opcion.getId();
+					String Query = "INSERT INTO opcionmultiple_tiene_respuestas (OpcionesMultiples_id, Preguntas_id) VALUES ("+idOpcionRespuesta+","+idPregunta+")";
+					st.executeUpdate(Query);
+					
+					
+		//				System.out.println("Respuesta: "+opcion.getOpcion());
+					}
+				}
+			}
+		}
+		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "INSERT INTO contestados (correo, Encuesta_id) VALUES ('"+correo+"',"+idEncuesta+")";
+		st.executeUpdate(Query);
+		
+		return true;
 	}
 
 	@Override
@@ -110,7 +146,7 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 			
 			DaoPregunta daoPregunta = new DaoPregunta();
 			ArrayList<Pregunta> preguntas;
-			String condicionPregunta = "Encuesta_id"+rs.getInt("id");
+			String condicionPregunta = "Encuesta_id="+rs.getInt("id");
 			preguntas = daoPregunta.consultarTodos(condicionPregunta);
 			
 			encuesta.setPreguntas(preguntas);
@@ -118,6 +154,23 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 		}
 		
 		return encuesta;
+	}
+	
+	public boolean consultarContestado(String condicion) throws SQLException{
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "SELECT * FROM contestados WHERE "+condicion;
+		ResultSet rs = st.executeQuery(Query);
+		boolean respuesta = false;
+		
+		if(rs.next()){
+			respuesta = true;
+		}else{
+			respuesta = false;
+		}
+		
+		return respuesta;
 	}
 
 }

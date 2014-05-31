@@ -154,6 +154,7 @@ public class ControlEncuesta extends HttpServlet {
 		//encuesta.setCategoria(categoria);
 		
 		//System.out.println(nombre+categoria+carpeta+fechaActual+fechaTermino+idUsuario);
+		session.removeAttribute("preguntas");
 		if(dispatcher!=null){
 			dispatcher.forward(request, response);
 		}

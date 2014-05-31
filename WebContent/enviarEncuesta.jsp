@@ -29,7 +29,8 @@
 			<form action="<%=request.getContextPath()%>/ControlEmail" method="POST">
 			<table>
 			    <tr>
-			    <td>To Email-id :<input type="text" name="email" /></td> <!--enter the email whom to send mail --> 
+			    <td>Para :<input type="text" name="email" /></td> <!--enter the email whom to send mail --> 
+			    
 			    <td><input type="submit" value="send"></input></td>
 			    </tr>
 			</table>

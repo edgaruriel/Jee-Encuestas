@@ -58,7 +58,7 @@
 		<br>
 		
 		<a href="crearPregunta.jsp">Crear Pregunta</a>
-	<input type="submit" value="Crear">
+	<input type="submit" value="Crear Encuesta">
 </form>
 </body>
 </html>

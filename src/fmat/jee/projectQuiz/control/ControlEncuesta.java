@@ -1,6 +1,7 @@
 package fmat.jee.projectQuiz.control;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,16 +74,13 @@ public class ControlEncuesta extends HttpServlet {
 			agregar(request,response);
 			break;
 		case "Guardar":
-			guardar(request,response);
+			guardarEncuesta(request,response);
 			break;
 		case "GuardarPregunta":
 			guardarPregunta(request,response);
 			break;
-		case "Ver":
-			ver(request,response);
-			break;
 		case "Eliminar":
-			eliminar(request,response);
+			eliminarPregunta(request,response);
 			break;
 		case "Enlistar":
 			Enlistar(request,response);
@@ -125,10 +123,10 @@ public class ControlEncuesta extends HttpServlet {
 		}
 	}
 	
-	protected void guardar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void guardarEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
 		HttpSession session = request.getSession(true);
 		Encuesta encuesta = new Encuesta();
 		
@@ -139,7 +137,7 @@ public class ControlEncuesta extends HttpServlet {
 		Categoria categoria = servicioCategoria.obtenerDatos(idCategoria);
 		int carpeta = Integer.parseInt(request.getParameter("carpeta"));
 		String fechaActual = request.getParameter("fechaActual");
-		String fechaTermino = "2014-05-31";
+		String fechaTermino = "2014-06-25";
 		int idUsuario = Integer.parseInt(request.getParameter("id"));
 		ServicioUsuario servicioUsuario =  new ServicioUsuario();
 		Usuario usuario = servicioUsuario.obtenerDatos(idUsuario);
@@ -159,12 +157,16 @@ public class ControlEncuesta extends HttpServlet {
 		//encuesta.setCategoria(categoria);
 		
 		//System.out.println(nombre+categoria+carpeta+fechaActual+fechaTermino+idUsuario);
+		session.removeAttribute("preguntas");
+		if(dispatcher!=null){
+			dispatcher.forward(request, response);
+		}
 
 	}
 	
 	protected void guardarPregunta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/crearEncuesta.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/crearPregunta.jsp");
 		HttpSession session = request.getSession(true);
 		int idTipoPregunta = Integer.parseInt(request.getParameter("tipopregunta"));
 		String pregunta = request.getParameter("pregunta");
@@ -216,73 +218,47 @@ public class ControlEncuesta extends HttpServlet {
 			}
 		}
 		
+		if(dispatcher!=null){
+			dispatcher.forward(request, response);
+		}
+		
 		//System.out.println(session.getAttribute("preguntas"));
 
 	}
 	
 	protected void eliminarPregunta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/crearEncuesta.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/crearPregunta.jsp");
 		HttpSession session = request.getSession(true);
+
+		int id = Integer.parseInt(request.getParameter("id"));
+		System.out.println("Id a eliminar:"+id);
 		
 		ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 		
 		Iterator<Pregunta> it = list.iterator();
 		while (it.hasNext()) {
-		  Pregunta user = it.next();
-		  if (user.getId()==1) {
+		  Pregunta pregunta = it.next();
+		  if (pregunta.getId()==id) {
 		    it.remove();
 		  }
 		}
-
-	}
-
-	protected void ver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
 		
-		String nombre = request.getParameter("nombre");
-		String pApellido = request.getParameter("pApellido");
-		String sApellido = request.getParameter("sApellido");
-		String nombreUsuario = request.getParameter("nombreUsuario");
-		String contrasenia = request.getParameter("contrasenia");
-		String correo = request.getParameter("correo");
-		String tipoUsuario = request.getParameter("tipoUsuario");
-		ServicioRol servicioRol = new ServicioRol();
-		Rol nuevoRol = servicioRol.obtenerRolPorId(Integer.parseInt(tipoUsuario));
-		int id = Integer.parseInt(request.getParameter("id"));
+		ArrayList<Pregunta> pregun = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 		
-		Usuario nuevoUsuario = new Usuario(id,nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
-		ServicioUsuario servicio = new ServicioUsuario();
-		if(servicio.actualizarUsuario(nuevoUsuario)){
-			if(dispatcher!=null){
-				dispatcher.forward(request, response);
-			}
-		}else{
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/crearUsuario.jsp");
-			if(dispatcherMal!=null){
-				dispatcherMal.forward(request, response);
+		for (Pregunta pr : pregun) {
+			System.out.println(pr.getId()+" "+pr.getPregunta());
+			if(pr.getOpciones()!=null){
+				for (OpcionMultiple op : pr.getOpciones()) {
+					System.out.println(op.getOpcion());
+				}
 			}
 		}
-	}
-	
-	protected void eliminar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
 		
-		boolean respuesta = false;
-		ServicioUsuario servicio = new ServicioUsuario();
-		respuesta =	servicio.eliminarUsuario(Integer.parseInt(request.getParameter("id")));
-		if(respuesta){
-			if(dispatcher!=null){
-				dispatcher.forward(request, response);
-			}
-		}else{
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
-			if(dispatcherMal!=null){
-				dispatcherMal.forward(request, response);
-			}
+		if(dispatcher!=null){
+			dispatcher.forward(request, response);
 		}
+
 	}
 	
 	protected void Enlistar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -315,6 +291,4 @@ public class ControlEncuesta extends HttpServlet {
 		}
 		
 	}
-	
-
 }

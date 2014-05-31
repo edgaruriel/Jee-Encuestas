@@ -4,20 +4,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Crear carpeta personal</title>
 </head>
 <body>
-	
-<h3>Crear nueva carpeta personal</h3>
-	<form action="<%=request.getContextPath()%>/ControlCarpeta?tipo=Agregar" method="post">	
-	<br>
-		<label >Nombre(s):</label>
-		<input type="text" name="nombre" id="nombre" size="20">
-		<br>		
-		<input type="hidden" name="usuarioId" value="${sessionScope.USUARIO.id}">
-		<br>
-	<input type="submit" value="Agregar">
-</form>
+	<div id="contenedor">
+		<div id="menu">
+			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
+			<br>
+			<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
+			<br>
+			<h3><a href="contactos.jsp">Mis contactos</a> </h3>
+			<br>
+			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+		</div>
+		<div id="cuerpo">
+			<h3>Crear nueva carpeta personal</h3>
+			<form action="<%=request.getContextPath()%>/ControlCarpeta?tipo=Agregar" method="post">	
+			<br>
+				<label >Nombre(s):</label>
+				<input type="text" name="nombre" id="nombre" size="20">
+				<br>		
+				<input type="hidden" name="usuarioId" value="${sessionScope.USUARIO.id}">
+				<br>
+			<input type="submit" value="Agregar">
+		</form>
+		</div>
+		
+	</div>
+
 
 </body>
 </html>

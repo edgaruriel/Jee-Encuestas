@@ -29,6 +29,13 @@
 		<c:set var="encuesta" scope="session" value="${sessionScope.VERENCUESTA}"></c:set>
 		
 		<table  border="1" style="width:300px">
+			<c:choose>
+			<c:when test="${encuesta == null}">
+				<tr>
+					<td colspan="2">No existe ninguna encuesta, posiblemente eliminada por el usuario.</td>
+				</tr>
+			</c:when>
+			<c:otherwise>
 			<tr>
 			<th>#</th>
 			<th>Pregunta</th>
@@ -85,6 +92,9 @@
 					</c:choose>
 				</tr>
 			</c:forEach>
+			</c:otherwise>
+			</c:choose>
+			
 		</table>
 		
 		<br>

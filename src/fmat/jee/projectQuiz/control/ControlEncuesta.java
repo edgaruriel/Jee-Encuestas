@@ -84,6 +84,9 @@ public class ControlEncuesta extends HttpServlet {
 		case "Eliminar":
 			eliminar(request,response);
 			break;
+		case "Enlistar":
+			Enlistar(request,response);
+			break;
 		default:
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
 			dispatcher.forward(request, response);
@@ -280,6 +283,37 @@ public class ControlEncuesta extends HttpServlet {
 				dispatcherMal.forward(request, response);
 			}
 		}
+	}
+	
+	protected void Enlistar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idCarpeta = request.getParameter("carpeta");
+		
+		HttpSession session = request.getSession(true);
+		ArrayList<Carpeta> carpetas = new ArrayList<Carpeta>();
+		carpetas = (ArrayList<Carpeta>) session.getAttribute("CARPETAS");
+		Carpeta carpetaUsuario = new Carpeta();
+		boolean bandera = false;
+		int id = Integer.parseInt(idCarpeta);
+		for (Carpeta carpeta : carpetas) {
+			if(carpeta.getId() == id){
+				bandera = true;
+				carpetaUsuario = carpeta;
+				break;
+			}
+		}
+		
+		if(bandera){
+		//	ServicioEncuesta servicioEncuesta = new ServicioEncuesta();
+		//	ArrayList<Encuesta> encuestas = new ArrayList<Encuesta>();
+			
+			
+		//	encuestas = servicioEncuesta.obtenerEncuestasPor(id);
+			session.setAttribute("CARPETA", carpetaUsuario);
+			response.sendRedirect("listarEncuesta.jsp");
+		}else{
+			response.sendRedirect("index.jsp");
+		}
+		
 	}
 	
 

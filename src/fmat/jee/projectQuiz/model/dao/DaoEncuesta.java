@@ -141,8 +141,9 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 		String Query = "SELECT * FROM encuesta WHERE "+condicion;
 		ResultSet rs = st.executeQuery(Query);
 		Encuesta encuesta = new Encuesta();
-		
+	
 		if(rs.next()){
+			
 			encuesta.setId(rs.getInt("id"));
 			encuesta.setNombre(rs.getString("nombre"));
 			encuesta.setFechaInicio(rs.getDate("fechaInicio"));
@@ -164,7 +165,9 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 			
 			encuesta.setPreguntas(preguntas);
 			
-		}
+		}else{
+			encuesta = null;
+		}	
 		
 		return encuesta;
 	}

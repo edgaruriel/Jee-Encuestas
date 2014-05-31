@@ -1,6 +1,7 @@
 package fmat.jee.projectQuiz.model.servicio;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import fmat.jee.projectQuiz.model.dao.DaoEncuesta;
 import fmat.jee.projectQuiz.model.dominio.Encuesta;
@@ -76,6 +77,21 @@ public class ServicioEncuesta {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return encuesta;
+	}
+	
+	public ArrayList<Encuesta> obtenerEncuestasPor(int idCarpeta){
+		DaoEncuesta daoEncuesta = new DaoEncuesta();
+		ArrayList<Encuesta> encuesta = new ArrayList<Encuesta>();
+		String condicion = "CarpetasPersonal_id ="+ idCarpeta;
+		
+		try {
+			encuesta =	daoEncuesta.consultarTodos(condicion);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			encuesta = null;
 		}
 		return encuesta;
 	}

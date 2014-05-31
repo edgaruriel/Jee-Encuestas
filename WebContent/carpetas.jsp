@@ -6,39 +6,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Mis Encuestas</title>
 </head>
 <body>
-	<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>
-	<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
-	<br>
-	<br>
-	<h1>Mis Encuestas. <c:out value="${user.nombre}"/> </h1>
-	
-	
-	<div id="menu">
-		
-		<br>
-		<br>
-		<h2><a href="encuestas.jsp">Mis Encuestas</a> </h2>	
+	<div id="contenedor">
+		<div id="menu">
+			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
 			<br>
-		<h2><a href="contactos.jsp">Mis contactos</a> </h2>
+			<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
 			<br>
-		<h2><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h2>
+			<h3><a href="contactos.jsp">Mis contactos</a> </h3>
 			<br>
-			<a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Eliminar&id=${sessionScope.USUARIO.id}">Eliminar Cuenta</a>
+			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+		</div>
+		<div id="cuerpo">
+			<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>		
+			<br>
+			<h1>Mis Encuestas. <c:out value="${user.nombre}"/> </h1>
 			<br>
 			
-	
-	</div>
-	
-	<br>
-	<br>
-	<label for="buscar">Buscar: </label>
+			<label for="buscar">Buscar: </label>
 	<input id="buscar" name="buscar" value="">
 	<br>
 	<a href="crearCarpeta.jsp">Crear nuevo carpeta personal</a>
-	<div id="contenedor">
+	
 		<c:set var="carpetas" scope="session" value="${sessionScope.CARPETAS}"></c:set>
 		<table  border="1" style="width:300px">
 			<c:choose>
@@ -58,7 +50,7 @@
 					
 						<td>
 							<table>
-								<tr><td><a href="#">${carpeta.nombre}</a></td></tr>
+								<tr><td><a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=Enlistar&carpeta=${carpeta.id}">${carpeta.nombre}</a></td></tr>
 								<tr><td>Encuestas ${fn:length(carpeta.encuestas)}</td></tr>
 							</table>
 						</td>
@@ -81,7 +73,15 @@
 			</c:otherwise>
 			</c:choose>		
 		</table>
-	</div>	
+			
+		</div>
+	</div>
+
+	
+	
+	
+	
+	
 </body>
 
 </html>

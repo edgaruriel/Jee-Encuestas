@@ -1,6 +1,8 @@
 package fmat.jee.projectQuiz.control;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fmat.jee.projectQuiz.model.dominio.Pregunta;
 import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
@@ -102,7 +105,13 @@ public class ControlLogin extends HttpServlet {
 	
 	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		HttpSession session = request.getSession(false);
-		session.removeAttribute("preguntas");
+		ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
+		
+		Iterator<Pregunta> it = list.iterator();
+		while (it.hasNext()) {
+		    it.remove();
+		}
+		
 		session.invalidate();
 		response.sendRedirect("index.jsp");
 	}

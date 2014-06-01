@@ -57,7 +57,7 @@ public class ServicioEncuesta {
 
 	if(!validarEncuestaPor(encuesta.getCorreo())){
 		try {
-			daoEncuesta.agregar(encuesta);
+			daoEncuesta.agregarRespuestas(encuesta);
 			respuesta = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

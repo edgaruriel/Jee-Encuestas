@@ -55,7 +55,7 @@
 						<td><label>${encuesta.id}</label></td>
 						<td>${encuesta.nombre}</td>
 						<td>${fn:length(encuesta.preguntas)}</td>
-						<td><a href="#">Ver</a> <a href="#">Enviar</a></td>
+						<td><a href="#">Ver</a> <a href="<%=request.getContextPath()%>/ControlEmail?tipo=seleccionarEncuesta&encuesta=${encuesta.id}">Enviar</a></td>
 					</tr>
 				</c:forEach>
 				

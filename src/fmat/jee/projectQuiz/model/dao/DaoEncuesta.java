@@ -52,6 +52,42 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 		}
 		return resultado;
 	}
+	
+	public boolean agregarRespuestas(Encuesta encuesta) throws SQLException {
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		
+		
+		String correo = encuesta.getCorreo();
+		int idEncuesta = encuesta.getId();
+		
+		ArrayList<Pregunta> preguntas = encuesta.getPreguntas();
+		for (Pregunta pregunta : preguntas) {
+			java.sql.Statement st = conexion.createStatement();
+			int idPregunta = pregunta.getId();
+			
+			if(pregunta.getTipoPregunta().getTipo().equals("ABIERTA")){
+				String respuesta = pregunta.getRespuesta();
+				
+				String Query = "INSERT INTO respuesta (Preguntas_id, respuesta) VALUES ("+idPregunta+",'"+respuesta+"')";
+				st.executeUpdate(Query);
+			}else{
+				for (OpcionMultiple opcion : pregunta.getOpciones()) {
+					if(opcion.isRespuesta()){
+						int idOpcionRespuesta = opcion.getId();
+						String Query = "INSERT INTO opcionmultiple_tiene_respuestas (OpcionesMultiples_id, Preguntas_id) VALUES ("+idOpcionRespuesta+","+idPregunta+")";
+						st.executeUpdate(Query);
+					}
+				}
+				
+			}
+		}
+		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "INSERT INTO contestados (correo, Encuesta_id) VALUES ('"+correo+"',"+idEncuesta+")";
+		st.executeUpdate(Query);
+		return true;
+	}
 
 	@Override
 	public boolean eliminar(String condicion) throws SQLException {

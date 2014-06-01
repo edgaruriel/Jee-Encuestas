@@ -23,11 +23,10 @@
 	<c:set var="CALIFICACION" scope="page" value="3"></c:set>
 	
 	<form action="<%=request.getContextPath()%>/ControlResponder?tipo=agregar" method="post">
-		<label id="label_correo" for="correo">Correo:</label>
-		<input id="correo" name="correo" type="text">
 		<br>
 		<c:set var="encuesta" scope="session" value="${sessionScope.VERENCUESTA}"></c:set>
-		
+		<c:set var="solicitante" scope="session" value="${sessionScope.SOLICITANTE}"></c:set>
+		<input id="correo" name="correo" type="hidden" value="${solicitante}">
 		<table  border="1" style="width:300px">
 			<c:choose>
 			<c:when test="${encuesta == null}">

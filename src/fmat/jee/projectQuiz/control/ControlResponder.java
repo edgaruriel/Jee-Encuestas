@@ -70,13 +70,14 @@ public class ControlResponder extends HttpServlet {
 	
 	public void verEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String idEncuesta = request.getParameter("encuesta");
+		String correoSolicitante = request.getParameter("correo");
 		ServicioEncuesta servicioEncuesta = new ServicioEncuesta();
 		
 		Encuesta encuesta = servicioEncuesta.obtenerEncuestaPor(Integer.parseInt(idEncuesta));
 		HttpSession session = request.getSession(true);
 		session.setAttribute("VERENCUESTA", encuesta);
+		session.setAttribute("SOLICITANTE",correoSolicitante);
 		response.sendRedirect("responderEncuesta.jsp");
-		
 	}
 	
 	public void agregarRespuestas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

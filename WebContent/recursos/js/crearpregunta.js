@@ -1,9 +1,21 @@
-
-/*window.onbeforeunload = function(){
-  return 'Are you sure you want to leave?';
-};*/
+$(document).ready(function() {	
+	$('#form').validate({
+		rules:{
+			tipopregunta: "required"
+		},
+		
+		messages:{
+			tipopregunta: "Seleccione un tipo de pregunta"
+		},
+		
+		submitHandler: function(form) {
+			form.submit();
+	    }
+	});
+});
 
 function tipoPregunta(sel){
+	$("#opciones").html("");
 	if(sel.value==1){
 
 		var div = document.getElementById("contenido");

@@ -7,6 +7,7 @@
 <head>
 <script type="text/javascript" src="recursos/js/crearpregunta.js"></script>
 <script type="text/javascript" src="recursos/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="recursos/jqueryValidation/jquery-validation.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -15,7 +16,7 @@
 <c:set var="tipopreguntas" scope="session" value="${sessionScope.tipopreguntas}"></c:set>
 
 	<h3>Crear nueva pregunta</h3>
-	<form action="<%=request.getContextPath()%>/ControlEncuesta?tipo=GuardarPregunta" method="post">	
+	<form action="<%=request.getContextPath()%>/ControlEncuesta?tipo=GuardarPregunta" method="post" id="form" role="form">	
 		
 	<label>Tipo pregunta: </label>
 	 <c:choose>
@@ -24,6 +25,7 @@
 		</c:when>
 		<c:otherwise>
 			<select id="tipopregunta" name="tipopregunta" onchange="tipoPregunta(this)">
+				<option value="">Seleccione un tipo de pregunta</option>
 				<c:forEach var="tipopregunta" items="${tipopreguntas}" varStatus="contador">
 					<option value="${tipopregunta.id}">${tipopregunta.tipo}</option>
 				</c:forEach>
@@ -38,6 +40,7 @@
 		
 		<input type="hidden" name="id" value="${sessionScope.USUARIO.id}">
 		<br>
+		<a href="crearEncuesta.jsp">Regresar para finalizar encuesta</a>
 		
 	<input type="submit" value="Añadir pregunta">
 </form>

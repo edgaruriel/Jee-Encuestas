@@ -162,6 +162,7 @@ public class ControlEncuesta extends HttpServlet {
 		
 		Iterator<Pregunta> it = list.iterator();
 		while (it.hasNext()) {
+			it.next();
 		    it.remove();
 		}
 		

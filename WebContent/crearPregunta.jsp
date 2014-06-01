@@ -40,6 +40,7 @@
 		
 		<input type="hidden" name="id" value="${sessionScope.USUARIO.id}">
 		<br>
+		<a href="crearEncuesta.jsp">Regresar para finalizar encuesta</a>
 		
 	<input type="submit" value="Añadir pregunta">
 </form>

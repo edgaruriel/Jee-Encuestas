@@ -43,6 +43,8 @@ public class ServicioUsuario {
 		try{
 			if(dao.agregar(usuario)){
 				resultado=true;
+			}else{
+				resultado = false;
 			}
 		}catch(SQLException e){
 			System.out.println("Error en crearUsuario");

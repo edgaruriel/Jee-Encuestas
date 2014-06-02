@@ -15,6 +15,19 @@ import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioRol;
 
 public class DaoUsuario extends AbstractDao<Usuario>{
+	
+	public boolean existeRegistro(String condicion) throws SQLException{
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String sql = "SELECT * FROM usuario WHERE nombreUsuario = '"+condicion+"'";
+		ResultSet rs = st.executeQuery(sql);
+		if(rs.next()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	@Override
 	public boolean agregar(Usuario usuario) throws SQLException{
@@ -31,13 +44,19 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 		Rol tipoUsuario=usuario.getRol();
 		int id = tipoUsuario.getId();
 		System.out.println(nombre+pApellido+sApellido+nombreUsuario+contrasenia+correo+tipoUsuario.getNombre());
+		
 		boolean resultado=false;
+		if(existeRegistro(nombreUsuario)){
+			resultado=false;
+		}else{
+		
 		try{
 		st.executeUpdate("INSERT INTO usuario (nombre, primerApellido, segundoApellido, nombreUsuario, contrasena, correo, Rol_id) VALUES ('"+nombre+"','"+pApellido+"','"+sApellido+"','"+nombreUsuario+"','"+contrasenia+"','"+correo+"',"+id+")");
 		resultado=true;
 		}catch(Exception e){
 			e.printStackTrace();
 			resultado=false;
+		}
 		}
 		return resultado;
 	}

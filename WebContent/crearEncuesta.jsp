@@ -60,5 +60,11 @@
 		<a href="crearPregunta.jsp">Crear Pregunta</a>
 	<input type="submit" value="Crear Encuesta">
 </form>
+
+<c:choose>
+<c:when test="${requestScope.errorEncuesta != null}">
+	<font color="red">No puede crear una encuesta sin haber agregado preguntas</font>
+</c:when>
+</c:choose>
 </body>
 </html>

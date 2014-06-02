@@ -103,17 +103,25 @@ public class ControlLogin extends HttpServlet {
 		
 	}
 	
-	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(false);
-		ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 		
-		Iterator<Pregunta> it = list.iterator();
-		while (it.hasNext()) {
-			it.next();
-		    it.remove();
+		if(session.getAttribute("USUARIO")==null){
+			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
+			dispatcherMal.forward(request, response);
+		}else{
+		if((ArrayList<Pregunta>)session.getAttribute("preguntas")!=null){
+			ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
+			
+			Iterator<Pregunta> it = list.iterator();
+			while (it.hasNext()) {
+				it.next();
+			    it.remove();
+			}
 		}
 		
 		session.invalidate();
 		response.sendRedirect("index.jsp");
+		}
 	}
 }

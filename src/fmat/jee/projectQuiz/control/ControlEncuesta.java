@@ -130,6 +130,8 @@ public class ControlEncuesta extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Encuesta encuesta = new Encuesta();
 		
+		if((ArrayList<Pregunta>)session.getAttribute("preguntas")!=null){
+		
 		ArrayList<Pregunta> preguntas = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 		String nombre = request.getParameter("nombre");
 		int idCategoria = Integer.parseInt(request.getParameter("categoria"));
@@ -157,17 +159,23 @@ public class ControlEncuesta extends HttpServlet {
 		//encuesta.setCategoria(categoria);
 		
 		//System.out.println(nombre+categoria+carpeta+fechaActual+fechaTermino+idUsuario);
+		
 
-		ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
-		
-		Iterator<Pregunta> it = list.iterator();
-		while (it.hasNext()) {
-			it.next();
-		    it.remove();
-		}
-		
-		if(dispatcher!=null){
-			dispatcher.forward(request, response);
+			ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
+			
+			Iterator<Pregunta> it = list.iterator();
+			while (it.hasNext()) {
+				it.next();
+			    it.remove();
+			}
+			
+			if(dispatcher!=null){
+				dispatcher.forward(request, response);
+			}
+		}else{
+			RequestDispatcher dispatcherError = request.getServletContext().getRequestDispatcher("/crearEncuesta.jsp");
+			request.setAttribute("errorEncuesta", true);
+			dispatcherError.forward(request, response);
 		}
 
 	}

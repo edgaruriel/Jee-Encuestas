@@ -98,6 +98,7 @@ public class ControlUsuario extends HttpServlet {
 			}
 		}else{
 			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/crearUsuario.jsp");
+			request.setAttribute("errorUsuario", true);
 			if(dispatcherMal!=null){
 				dispatcherMal.forward(request, response);
 			}
@@ -106,71 +107,83 @@ public class ControlUsuario extends HttpServlet {
 	
 	protected void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServicioUsuario servicio = new ServicioUsuario();
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/editarCuenta.jsp");
-		//HttpSession session = request.getSession(true);
-		try{
-		/*int id = Integer.parseInt(request.getParameter("id"));
-		Usuario usuario = servicio.obtenerDatos(id);
-		session.setAttribute("nombre", usuario.getNombre());
-		session.setAttribute("pApellido", usuario.getPrimerApellido());
-		session.setAttribute("sApellido", usuario.getSegundoApellido());
-		session.setAttribute("nombreUsuario", usuario.getNombreUsuario());
-		session.setAttribute("contrasena", usuario.getContrasena());
-		session.setAttribute("correo", usuario.getCorreo());
-		session.setAttribute("rol", usuario.getRol().getNombre());*/
-		if(dispatcher!=null){
-			dispatcher.forward(request, response);
-		}
-		}catch(Exception e){
-			e.printStackTrace();
+		HttpSession session = request.getSession(false);
+		
+		if(session.getAttribute("USUARIO")==null){
+			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
+			dispatcherMal.forward(request, response);
+		}else{
+			ServicioUsuario servicio = new ServicioUsuario();
+			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/editarCuenta.jsp");
+			//HttpSession session = request.getSession(true);
+			try{
+			if(dispatcher!=null){
+				dispatcher.forward(request, response);
+			}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	protected void actualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+		HttpSession session = request.getSession(false);
 		
-		String nombre = request.getParameter("nombre");
-		String pApellido = request.getParameter("pApellido");
-		String sApellido = request.getParameter("sApellido");
-		String nombreUsuario = request.getParameter("nombreUsuario");
-		String contrasenia = request.getParameter("contrasenia");
-		String correo = request.getParameter("correo");
-		String tipoUsuario = request.getParameter("tipoUsuario");
-		ServicioRol servicioRol = new ServicioRol();
-		Rol nuevoRol = servicioRol.obtenerRolPorId(Integer.parseInt(tipoUsuario));
-		int id = Integer.parseInt(request.getParameter("id"));
-		
-		Usuario nuevoUsuario = new Usuario(id,nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
-		ServicioUsuario servicio = new ServicioUsuario();
-		if(servicio.actualizarUsuario(nuevoUsuario)){
-			if(dispatcher!=null){
-				dispatcher.forward(request, response);
-			}
+		if(session.getAttribute("USUARIO")==null){
+			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
+			dispatcherMal.forward(request, response);
 		}else{
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/crearUsuario.jsp");
-			if(dispatcherMal!=null){
-				dispatcherMal.forward(request, response);
+			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+			
+			String nombre = request.getParameter("nombre");
+			String pApellido = request.getParameter("pApellido");
+			String sApellido = request.getParameter("sApellido");
+			String nombreUsuario = request.getParameter("nombreUsuario");
+			String contrasenia = request.getParameter("contrasenia");
+			String correo = request.getParameter("correo");
+			String tipoUsuario = request.getParameter("tipoUsuario");
+			ServicioRol servicioRol = new ServicioRol();
+			Rol nuevoRol = servicioRol.obtenerRolPorId(Integer.parseInt(tipoUsuario));
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			Usuario nuevoUsuario = new Usuario(id,nombre,pApellido,sApellido,nombreUsuario,contrasenia,correo,nuevoRol);
+			ServicioUsuario servicio = new ServicioUsuario();
+			if(servicio.actualizarUsuario(nuevoUsuario)){
+				if(dispatcher!=null){
+					dispatcher.forward(request, response);
+				}
+			}else{
+				RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/crearUsuario.jsp");
+				if(dispatcherMal!=null){
+					dispatcherMal.forward(request, response);
+				}
 			}
 		}
 	}
 	
 	protected void eliminar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		HttpSession session = request.getSession(false);
 		
-		boolean respuesta = false;
-		ServicioUsuario servicio = new ServicioUsuario();
-		respuesta =	servicio.eliminarUsuario(Integer.parseInt(request.getParameter("id")));
-		if(respuesta){
-			if(dispatcher!=null){
-				dispatcher.forward(request, response);
-			}
+		if(session.getAttribute("USUARIO")==null){
+			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
+			dispatcherMal.forward(request, response);
 		}else{
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
-			if(dispatcherMal!=null){
-				dispatcherMal.forward(request, response);
+			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+			
+			boolean respuesta = false;
+			ServicioUsuario servicio = new ServicioUsuario();
+			respuesta =	servicio.eliminarUsuario(Integer.parseInt(request.getParameter("id")));
+			if(respuesta){
+				if(dispatcher!=null){
+					dispatcher.forward(request, response);
+				}
+			}else{
+				RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+				if(dispatcherMal!=null){
+					dispatcherMal.forward(request, response);
+				}
 			}
 		}
 	}

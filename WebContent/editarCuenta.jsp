@@ -9,28 +9,39 @@
 </head>
 <body>
 		<h3>Editar Cuenta:</h3>
-	<form action="<%=request.getContextPath()%>/ControlUsuario?tipo=Actualizar&id=${sessionScope.USUARIO.id}" method="post">	
+		<c:choose>
+		<c:when test="${sessionScope.USUARIO != null}">
+			<c:set var="usuario" scope="session" value="${sessionScope.USUARIO}"> </c:set>
+		</c:when>
+		<c:otherwise>
+			<c:set var="usuario" scope="session" value="${sessionScope.ADMIN}"> </c:set>
+		</c:otherwise>
+		</c:choose>
+		
+		
+	<form action="<%=request.getContextPath()%>/ControlUsuario?tipo=Actualizar&id=${usuario.id}" method="post">	
 	<br>
 		<label >Nombre(s):</label>
-		<input type="text" name="nombre" size="20" value="${sessionScope.USUARIO.nombre}">
+		<input type="text" name="nombre" size="20" value="${usuario.nombre}">
 		<br>
 		<label >Primer apellido::</label>
-		<input type="text" name="pApellido" size="20" value="${sessionScope.USUARIO.primerApellido}">
+		<input type="text" name="pApellido" size="20" value="${usuario.primerApellido}">
 		<br>
 		<label >Segundo apellido::</label>
-		<input type="text" name="sApellido" size="20" value="${sessionScope.USUARIO.segundoApellido}">
+		<input type="text" name="sApellido" size="20" value="${usuario.segundoApellido}">
 		<br>
 		<label >Nombre de usuario:</label>
-		<input type="text" name="nombreUsuario" size="20" value="${sessionScope.USUARIO.nombreUsuario}">
+		<input type="text" name="nombreUsuario" size="20" value="${usuario.nombreUsuario}">
 		<br>	
 		<label>Contrase&ntilde;a:</label>
-		<input type="password" name="contrasenia" size="10" value="${sessionScope.USUARIO.contrasena}">		
+		<input type="password" name="contrasenia" size="10" value="${usuario.contrasena}">		
 		<br>
 		<label >Correo electr&oacute;nico:</label>
-		<input type="text" name="correo" size="20" value="${sessionScope.USUARIO.correo}">
+		<input type="text" name="correo" size="20" value="${usuario.correo}">
 		<br>
-		<c:out value="${sessionScope.USUARIO.rol.nombre}"></c:out>
-		<input type="hidden" name="tipoUsuario" value="1">
+		<label>Rol:</label>
+		<input type="text" name="Rol" value="${usuario.rol.nombre}" readonly="readonly">
+		<input type="hidden" name="tipoUsuario" value="${usuario.rol.id}">
 		<br>
 	<input type="submit" value="Actualizar Datos">
 </form>

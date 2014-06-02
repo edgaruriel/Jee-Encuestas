@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Insert title here</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 	<div id="contenedor">
 		<div id="menu">
 			<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>
@@ -22,7 +22,7 @@
 			<br>
 			<h3><a href="contactos.jsp">Mis contactos</a> </h3>
 			<br>
-			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${user.id}">Mi Cuenta</a></h3>
 		</div>
 		<div id="cuerpo">
 			
@@ -30,7 +30,7 @@
 			
 			<h2>CARPETA: <c:out value="${carpeta.nombre}"/>. </h2>
 			
-		<a href="crearEncuesta.jsp">Agregar Encuesta</a>
+		<a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=Agregar&id=${user.id}">Agregar Encuesta</a>
 		<br>
 	
 		<c:set var="encuestas" scope="session" value="${carpeta.encuestas}"></c:set>

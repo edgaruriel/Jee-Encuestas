@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Lista de contactos</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 <div id="contenedor">
 	<div id="menu">
 		<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
@@ -29,9 +29,11 @@
 		<c:set var="contactos" scope="session" value="${sessionScope.USUARIO.contactos}"></c:set>
 		<c:choose>
 		<c:when test="${fn:length(contactos) == 0}">
+		<table border="1" style="width:300px">
 			<tr>
 				<td colspan="4">No tienes contactos</td>
 			</tr>
+		</table>
 		</c:when>
 		<c:otherwise>
 			<table  border="1" style="width:300px">

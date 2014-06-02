@@ -24,7 +24,7 @@
 		<br>
 		<label >Nombre de usuario:</label>
 		<input type="text" name="nombreUsuario" size="20">
-		<br>	
+		<br>
 		<label>Contrase&ntilde;a:</label>
 		<input type="password" name="contrasenia" size="10">		
 		<br>

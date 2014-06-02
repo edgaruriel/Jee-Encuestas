@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fmat.jee.projectQuiz.model.dominio.Administrador;
 import fmat.jee.projectQuiz.model.dominio.Contacto;
 import fmat.jee.projectQuiz.model.dominio.Rol;
 import fmat.jee.projectQuiz.model.dominio.Usuario;
@@ -52,7 +53,7 @@ public class ControlUsuario extends HttpServlet {
 	protected void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String control = request.getParameter("tipo");
-		String jsp = "/pageHome.jsp";
+		
 	
 		
 		switch(control){
@@ -78,7 +79,17 @@ public class ControlUsuario extends HttpServlet {
 	
 	protected void agregar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		HttpSession session = request.getSession(true);
+		RequestDispatcher dispatcher = null;
+		if(session.getAttribute("ADMIN") != null){
+			 //usuario
+			dispatcher = request.getServletContext().getRequestDispatcher("/usuarios.jsp");
+		}else if(session.getAttribute("USUARIO") == null){
+			//index
+			dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		}
+		
+		//RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
 		
 		String nombre = request.getParameter("nombre");
 		String pApellido = request.getParameter("pApellido");
@@ -94,6 +105,7 @@ public class ControlUsuario extends HttpServlet {
 		ServicioUsuario servicio = new ServicioUsuario();
 		if(servicio.crearUsuario(nuevoUsuario)){
 			if(dispatcher!=null){
+				actualizarUsuarioSession(request, response);
 				dispatcher.forward(request, response);
 			}
 		}else{
@@ -128,13 +140,23 @@ public class ControlUsuario extends HttpServlet {
 	
 	protected void actualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(false);
+		HttpSession sessionFiltro = request.getSession(false);
 		
-		if(session.getAttribute("USUARIO")==null){
+		if(sessionFiltro.getAttribute("USUARIO")==null){
 			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
 			dispatcherMal.forward(request, response);
 		}else{
-			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+			HttpSession session = request.getSession(true);
+			RequestDispatcher dispatcher = null;
+			if(session.getAttribute("ADMIN") != null){
+				 //usuario
+				dispatcher = request.getServletContext().getRequestDispatcher("/indexAdmin.jsp");
+			}else if(session.getAttribute("USUARIO") != null){
+				//index
+				dispatcher = request.getServletContext().getRequestDispatcher("/indexCliente.jsp");
+			}
+			
+			//RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/indexCliente.jsp");
 			
 			String nombre = request.getParameter("nombre");
 			String pApellido = request.getParameter("pApellido");
@@ -151,6 +173,7 @@ public class ControlUsuario extends HttpServlet {
 			ServicioUsuario servicio = new ServicioUsuario();
 			if(servicio.actualizarUsuario(nuevoUsuario)){
 				if(dispatcher!=null){
+					actualizarUsuarioSession(request, response);
 					dispatcher.forward(request, response);
 				}
 			}else{
@@ -170,21 +193,63 @@ public class ControlUsuario extends HttpServlet {
 			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
 			dispatcherMal.forward(request, response);
 		}else{
-			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/usuarios.jsp");
 			
 			boolean respuesta = false;
 			ServicioUsuario servicio = new ServicioUsuario();
 			respuesta =	servicio.eliminarUsuario(Integer.parseInt(request.getParameter("id")));
 			if(respuesta){
 				if(dispatcher!=null){
+					actualizarUsuarioSession(request, response);
 					dispatcher.forward(request, response);
+					
 				}
 			}else{
-				RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+				RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/usuarios.jsp");
 				if(dispatcherMal!=null){
+					//actualizarUsuarioSession(request, response);
 					dispatcherMal.forward(request, response);
 				}
 			}
 		}
 	}
+	
+	private void actualizarUsuarioSession(HttpServletRequest request, HttpServletResponse response){
+		ServicioUsuario servicioUsuario = new ServicioUsuario();
+		HttpSession session = request.getSession(true);
+		
+		if(session.getAttribute("ADMIN") != null){	
+			Administrador admin = (Administrador) session.getAttribute("ADMIN");
+			Usuario usuarioActual = servicioUsuario.obtenerUsuarioPorNombre(admin.getNombreUsuario());
+			Administrador actualAdmin = crearAdmin(usuarioActual);
+			ArrayList<Usuario> nuevaLista = servicioUsuario.obtenerUsuarios();
+			actualAdmin.setUsuarios(nuevaLista);
+			session.setAttribute("ADMIN", actualAdmin);
+			
+		}else if(session.getAttribute("USUARIO") != null){
+			//index
+			Usuario usuario = (Usuario) session.getAttribute("USUARIO");
+			Usuario usuarioActual = servicioUsuario.obtenerUsuarioPorNombre(usuario.getNombreUsuario());
+			ServicioContactos servicioContactos = new ServicioContactos();
+			
+			ArrayList<Contacto> nuevaLista = servicioContactos.obtenerContactos(usuarioActual.getId());
+			usuarioActual.setContactos(nuevaLista);
+			session.setAttribute("USUARIO", usuarioActual);
+		}
+		
+	}
+	
+	private Administrador crearAdmin(Usuario usuario){
+		Administrador admin = new Administrador();
+		admin.setId(usuario.getId());
+		admin.setNombre(usuario.getNombre());
+		admin.setPrimerApellido(usuario.getPrimerApellido());
+		admin.setSegundoApellido(usuario.getSegundoApellido());
+		admin.setNombreUsuario(usuario.getNombreUsuario());
+		admin.setContrasena(usuario.getContrasena());
+		admin.setRol(usuario.getRol());
+		admin.setCorreo(usuario.getCorreo());
+		return admin;
+	}
+	
 }

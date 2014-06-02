@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Crear carpeta personal</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 	<div id="contenedor">
 		<div id="menu">
 			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>

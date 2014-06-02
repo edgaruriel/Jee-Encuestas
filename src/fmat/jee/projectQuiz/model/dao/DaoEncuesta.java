@@ -95,17 +95,24 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 		boolean resultado = true;
 		Connection conexion;
 		conexion = (Connection) AbstractDao.getConexion();		
-		java.sql.Statement st = conexion.createStatement();
+	//	java.sql.Statement st = conexion.createStatement();
 		
 		ArrayList<Encuesta> encuesta = consultarTodos(condicion);
 		DaoPregunta daoPregunta = new DaoPregunta();
 		for (int i = 0; i < encuesta.size(); i++) {
 			
 			daoPregunta.eliminar(Integer.toString(encuesta.get(i).getId()));
+			String sql1 = "DELETE FROM contestados WHERE Encuesta_id="+encuesta.get(i).getId();
+			java.sql.Statement st2 = conexion.createStatement();
+			st2.executeUpdate(sql1);
+			
+			String sql2 = "DELETE FROM encuesta WHERE id="+encuesta.get(i).getId();
+			java.sql.Statement st = conexion.createStatement();
+			st.executeUpdate(sql2);
+			
 		}
 		
-		String sql = "DELETE FROM encuesta WHERE "+condicion;
-		st.executeUpdate(sql);
+		
 		return resultado;
 	}
 

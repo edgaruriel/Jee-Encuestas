@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fmat.jee.projectQuiz.model.dominio.Administrador;
 import fmat.jee.projectQuiz.model.dominio.Pregunta;
 import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioContactos;
@@ -90,11 +91,21 @@ public class ControlLogin extends HttpServlet {
 			ServicioContactos servicioContactos = new ServicioContactos();
 			
 			Usuario usuarioLogin =	servicioUsuario.obtenerUsuarioPorNombre(usuario);
-			usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
-				HttpSession session = request.getSession(true);
+			HttpSession session = request.getSession(true);
+			if(usuarioLogin.getRol().getNombre().equals("CLIENTE")){
+				usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
+			
 				session.setAttribute("USUARIO", usuarioLogin);
 				session.setAttribute("preguntas", null);
-				response.sendRedirect("pageHome.jsp");
+				response.sendRedirect("indexCliente.jsp");
+			}else if (usuarioLogin.getRol().getNombre().equals("ADMINISTRADOR")) {
+				Administrador admin = crearAdmin(usuarioLogin);				
+				admin.setUsuarios(servicioUsuario.obtenerUsuarios());				
+				session.setAttribute("ADMIN", admin);
+				session.setAttribute("preguntas", null);
+				response.sendRedirect("indexAdmin.jsp");
+			}
+			
 			}else{
 				request.setAttribute("error", true);
 				RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/index.jsp");
@@ -103,7 +114,21 @@ public class ControlLogin extends HttpServlet {
 		
 	}
 	
-	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	private Administrador crearAdmin(Usuario usuario){
+		Administrador admin = new Administrador();
+		admin.setId(usuario.getId());
+		admin.setNombre(usuario.getNombre());
+		admin.setPrimerApellido(usuario.getPrimerApellido());
+		admin.setSegundoApellido(usuario.getSegundoApellido());
+		admin.setNombreUsuario(usuario.getNombreUsuario());
+		admin.setContrasena(usuario.getContrasena());
+		admin.setRol(usuario.getRol());
+		admin.setCorreo(usuario.getCorreo());
+		
+		return admin;
+	}
+	
+	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		HttpSession session = request.getSession(false);
 		
 		if(session.getAttribute("USUARIO")==null){

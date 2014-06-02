@@ -97,11 +97,7 @@ public class ControlContacto extends HttpServlet {
 		
 		boolean respuesta =	servicioContactos.agregarContacto(contacto);
 		if(respuesta){
-			ArrayList<Contacto> nuevaLista = servicioContactos.obtenerContactos(Integer.parseInt(usuarioID));
-			HttpSession session = request.getSession(true);
-			Usuario usuario = (Usuario) session.getAttribute("USUARIO");
-			usuario.setContactos(nuevaLista);
-			session.setAttribute("USUARIO", usuario);
+			actualizarContactoSession(request, response);
 			
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/contactos.jsp");
 			dispatcher.forward(request, response);

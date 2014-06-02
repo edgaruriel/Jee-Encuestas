@@ -73,7 +73,7 @@ public class ControlCarpeta extends HttpServlet {
 	}
 	
 	public void paginaDefault(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/indexCliente.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -88,11 +88,7 @@ public class ControlCarpeta extends HttpServlet {
 		ServicioCarpeta servicioCarpeta = new ServicioCarpeta();
 	boolean respuesta =	servicioCarpeta.agregarCarpeta(carpeta);
 		if(respuesta){
-			ArrayList<Carpeta> nuevaLista = servicioCarpeta.obtenerCarpetas(Integer.parseInt(usuarioID));
-			HttpSession session = request.getSession(true);
-			session.removeAttribute("CARPETAS");
-			session.setAttribute("CARPETAS", nuevaLista);
-			
+			actualizarSession(request,response);
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/carpetas.jsp");
 			dispatcher.forward(request, response);
 		}else{
@@ -126,6 +122,16 @@ public class ControlCarpeta extends HttpServlet {
 		session.setAttribute("CARPETAS", carpetas);
 		
 		response.sendRedirect("carpetas.jsp");
+		
+	}
+	
+	private void actualizarSession(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		ServicioCarpeta servicioCarpeta = new ServicioCarpeta();
+		String usuarioID = request.getParameter("usuarioId");
+		ArrayList<Carpeta> nuevaLista = servicioCarpeta.obtenerCarpetas(Integer.parseInt(usuarioID));
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("CARPETAS");
+		session.setAttribute("CARPETAS", nuevaLista);
 		
 	}
 	

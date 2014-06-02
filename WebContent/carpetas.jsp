@@ -9,19 +9,19 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Mis Encuestas</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 	<div id="contenedor">
 		<div id="menu">
+		<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>	
 			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
 			<br>
 			<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
 			<br>
 			<h3><a href="contactos.jsp">Mis contactos</a> </h3>
 			<br>
-			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${user.id}">Mi Cuenta</a></h3>
 		</div>
 		<div id="cuerpo">
-			<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>		
 			<br>
 			<h1>Mis Encuestas. <c:out value="${user.nombre}"/> </h1>
 			<br>

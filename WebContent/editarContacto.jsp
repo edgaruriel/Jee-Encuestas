@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Editar contacto</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 	<div id="contenedor">
 		<div id="menu">
 			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
@@ -25,7 +25,7 @@
 			
 			<c:set var="contacto" scope="session" value="${sessionScope.contacto}"></c:set>
 			
-			<form action="ControlContacto" method="post">	
+			<form action="<%=request.getContextPath()%>/ControlContacto?tipo=Actualizar" method="post">	
 			<br>
 				<label >Nombre(s):</label>
 				<input type="text" name="nombre" id="nombre" size="20" value="${contacto.nombre}">

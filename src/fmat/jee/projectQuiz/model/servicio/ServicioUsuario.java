@@ -103,5 +103,18 @@ public class ServicioUsuario {
 			}
 		return resultado;
 	}
+	
+	public ArrayList<Usuario> obtenerUsuarios(){
+		DaoUsuario dao = new DaoUsuario();
+		ArrayList<Usuario> usuarios = null;
+		try {
+			usuarios = dao.consultarTodos("Rol_id ="+1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return usuarios;
+	}
 
 }

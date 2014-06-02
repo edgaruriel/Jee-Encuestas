@@ -17,10 +17,12 @@ import javax.mail.internet.*;
 
 import com.sun.xml.internal.fastinfoset.sax.Properties;
 
+import fmat.jee.projectQuiz.model.dominio.Administrador;
 import fmat.jee.projectQuiz.model.dominio.Contacto;
 import fmat.jee.projectQuiz.model.dominio.Encuesta;
 import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioEncuesta;
+import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
 
 /**
  * Servlet implementation class ControlEmail
@@ -63,8 +65,13 @@ public class ControlEmail extends HttpServlet {
 		case "enviar":
 			//imprimirContactos(request, response);
 				//String mensaje = configurarMensaje(request,response);
-				controlEnvio(request,response);
-			
+				controlEnvio(request,response);			
+			break;
+		case "seleccionarUsuario":
+			seleccionarUsuario(request,response);
+			break;
+		case "mensajeUsuario":
+			mensajeUsuario(request,response);
 			break;
 		default:
 			break;
@@ -72,6 +79,63 @@ public class ControlEmail extends HttpServlet {
 		}
 		
 		
+	}
+	
+	protected void mensajeUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String mensaje = configurarMensajeUsuario(request, response);
+		HttpSession session = request.getSession(true);
+		Usuario usuario = (Usuario) session.getAttribute("SELECCION_USUARIO");
+		try {
+			enviarEmail(usuario.getCorreo(),mensaje);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		response.sendRedirect("usuarios.jsp");
+	}
+	
+	protected void seleccionarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String nombreUsuario = request.getParameter("usuario");
+		HttpSession session = request.getSession(true);
+		ServicioUsuario servicioUsuario = new ServicioUsuario();
+		Usuario usuario = servicioUsuario.obtenerUsuarioPorNombre(nombreUsuario);
+		session.setAttribute("SELECCION_USUARIO", usuario);
+		response.sendRedirect("enviarMensaje.jsp");
+	}
+	
+	protected String configurarMensajeUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String mensaje = request.getParameter("mensaje");
+		HttpSession session = request.getSession(true);
+		Usuario usuario = (Usuario) session.getAttribute("SELECCION_USUARIO");
+		Administrador administrador = (Administrador) session.getAttribute("ADMIN");
+		                String body ="<html>"
+                        		+ "<body>"
+                        		+ "<table width=100%>"
+                        		+ "<tr>"
+                        		+ "<td>Del Administrador: "+administrador.getNombre()+" "+administrador.getPrimerApellido()+" "+administrador.getSegundoApellido()+"</td>"
+                        		+ "</tr>"
+                        		+ "<tr>"
+                        		+ "<td>Para: "+usuario.getNombre()+" "+usuario.getPrimerApellido()+" "+usuario.getSegundoApellido()+"</td>"
+                        		+ "</tr>"
+                        		+ "<tr>"
+                        		+ "<td><label>Mensaje:</label></td>"
+                        		+ "</tr>"
+                        		+ "<tr>"
+                        		+ mensaje
+                        		+ "</tr>"
+                        		+ "</table>"
+                        		+ "</body>"
+                        		+ "</html>";
+      //      sa.SendingEmail(to_mail,body);
+      //      response.sendRedirect("pageHome.jsp");
+     //   }else{
+     //   	System.out.println("No ENTRO");
+     //   }
+        return body;
 	}
 	
 	public void imprimirContactos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -94,7 +158,7 @@ public class ControlEmail extends HttpServlet {
 		response.sendRedirect("enviarEncuesta.jsp");
 	}
 	
-	protected String configurarMensaje(HttpServletRequest request, HttpServletResponse response, String correo) throws ServletException, IOException{
+	protected String configurarMensajeEncuesta(HttpServletRequest request, HttpServletResponse response, String correo) throws ServletException, IOException{
 		//String uri=request.getRequestURI();		
 	//	if(uri.equals(request.getContextPath()+"/ControlEmail"))
      //   {
@@ -135,7 +199,7 @@ public class ControlEmail extends HttpServlet {
 			
 			if(request.getParameter("contacto"+contacto.getId()) != null){
 			//	System.out.println("SELECCIONADOS: " +request.getParameter("contacto"+contacto.getId()));
-			String mensaje = configurarMensaje(request,response,request.getParameter("contacto"+contacto.getId()));
+			String mensaje = configurarMensajeEncuesta(request,response,request.getParameter("contacto"+contacto.getId()));
 				try {
 					enviarEmail(request.getParameter("contacto"+contacto.getId()), mensaje);
 				} catch (MessagingException e) {
@@ -160,7 +224,7 @@ public class ControlEmail extends HttpServlet {
 			Matcher matcher = pattern.matcher(correo);
 			if(matcher.matches()){
 				//System.out.println(correo);
-		String mensaje = configurarMensaje(request,response,correo);
+		String mensaje = configurarMensajeEncuesta(request,response,correo);
 				try {
 					enviarEmail(correo,mensaje);
 				} catch (MessagingException e) {

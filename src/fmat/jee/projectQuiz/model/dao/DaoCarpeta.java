@@ -39,16 +39,30 @@ public class DaoCarpeta extends AbstractDao<Carpeta>{
 		conexion = (Connection) AbstractDao.getConexion();		
 		java.sql.Statement st = conexion.createStatement();
 		String [] condicionArray = condicion.split("=");
-		int idCarpeta = Integer.parseInt(condicionArray[1]);
-		String condicionEliminarEncuesta = "CarpetasPersonal_id="+idCarpeta;
 		
-		DaoEncuesta daoEncuesta = new DaoEncuesta();
-		daoEncuesta.eliminar(condicionEliminarEncuesta);
-		
+		if(condicionArray[0].equals("id")){
+			int idCarpeta = Integer.parseInt(condicionArray[1]);
+			String	condicionEliminarEncuesta = "CarpetasPersonal_id="+idCarpeta;
+			
+			DaoEncuesta daoEncuesta = new DaoEncuesta();
+			daoEncuesta.eliminar(condicionEliminarEncuesta);
+			
+			
+		}else if(condicionArray[0].equals("Usuario_id")){
+			DaoEncuesta daoEncuesta = new DaoEncuesta();
+			ArrayList<Carpeta> carpetas = consultarTodos(condicion);
+			for (Carpeta carpeta : carpetas) {			
+				String	condicionEliminarEncuesta  = "CarpetasPersonal_id="+carpeta.getId();
+				daoEncuesta.eliminar(condicionEliminarEncuesta);
+			}
+			
+		}
 		//String sqlE = "DELETE FROM encuesta WHERE CapetasPersonal_id"+idCarpeta;		
-		String sqlC = "DELETE FROM carpetaspersonal WHERE "+condicion;
+		String sqlC = "DELETE FROM capetaspersonal WHERE "+condicion;
 		//st.executeUpdate(sqlE);
 		st.executeUpdate(sqlC);
+		
+		
 		return resultado;
 	}
 

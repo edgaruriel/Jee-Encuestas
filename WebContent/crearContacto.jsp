@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Insert title here</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 
 	<div id="contenedor">
 			<div id="menu">

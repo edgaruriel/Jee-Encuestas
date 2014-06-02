@@ -44,21 +44,27 @@ public class DaoPregunta extends AbstractDao<Pregunta>{
 		return resultado;
 	}
 
-	@Override				//Solo manda el id
+	@Override				//Solo manda el id de la encuesta
 	public boolean eliminar(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean resultado = true;
 		Connection conexion;
-		conexion = (Connection) AbstractDao.getConexion();		
-		java.sql.Statement st = conexion.createStatement();
-		String sqlR = "DELETE FROM respuesta WHERE Preguntas_id="+id;		
-		String sqlOR = "DELETE FROM opcionmultiple_tiene_respuestas WHERE Preguntas_id="+id;
-		String sqlO = "DELETE FROM opcionesmultiples WHERE Preguntas_id="+id;
-		String sqlP = "DELETE FROM preguntas WHERE id="+id;
-		st.executeUpdate(sqlR);
-		st.executeUpdate(sqlOR);
-		st.executeUpdate(sqlO);
-		st.executeUpdate(sqlP);
+		conexion = (Connection) AbstractDao.getConexion();	
+		
+		ArrayList<Pregunta> preguntas =	consultarTodos("Encuesta_id="+id);
+		
+		for (Pregunta pregunta : preguntas) {
+			java.sql.Statement st = conexion.createStatement();
+			String sqlR = "DELETE FROM respuesta WHERE Preguntas_id="+pregunta.getId();		
+			String sqlOR = "DELETE FROM opcionmultiple_tiene_respuestas WHERE Preguntas_id="+pregunta.getId();
+			String sqlO = "DELETE FROM opcionesmultiples WHERE Preguntas_id="+pregunta.getId();
+			String sqlP = "DELETE FROM preguntas WHERE id="+pregunta.getId();
+			st.executeUpdate(sqlR);
+			st.executeUpdate(sqlOR);
+			st.executeUpdate(sqlO);
+			st.executeUpdate(sqlP);
+		}
+		
 		return resultado;
 	}
 

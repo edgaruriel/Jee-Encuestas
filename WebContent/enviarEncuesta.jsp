@@ -7,9 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
-<title>Insert title here</title>
+<title>Enviar encuesta</title>
 </head>
-<body>
+<body bgcolor="#FE2E2E">
 	<div id="contenedor">
 			<div id="menu">
 				<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>

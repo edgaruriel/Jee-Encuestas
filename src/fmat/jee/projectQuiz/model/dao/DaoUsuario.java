@@ -48,9 +48,21 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 		boolean resultado = true;
 		Connection conexion;
 		conexion = (Connection) AbstractDao.getConexion();		
-		java.sql.Statement st = conexion.createStatement();
-		String sql = "DELETE FROM usuario WHERE "+condicion;
-		st.executeUpdate(sql);
+		
+		
+		DaoCarpeta daoCarpeta = new DaoCarpeta();
+		String[] parametros = condicion.split("=");
+		String condicion2 = "Usuario_id="+parametros[1];		
+		/*for (int i = 0; i < parametros.length; i++) {
+			System.out.println("Parametros: "+parametros[i]);
+		}*/		
+		daoCarpeta.eliminar(condicion2);
+		
+		DaoContacto daoContacto = new DaoContacto();
+		daoContacto.eliminar(condicion2);
+		String sql2 = "DELETE FROM usuario WHERE "+condicion;
+		java.sql.Statement st2 = conexion.createStatement();
+		st2.executeUpdate(sql2);
 		return resultado;
 	}
 
@@ -84,7 +96,28 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 	@Override
 	public ArrayList<Usuario> consultarTodos(String condicion) throws SQLException{
 		// TODO Auto-generated method stub
-		return null;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "SELECT * FROM usuario WHERE "+condicion;
+		ResultSet rs = st.executeQuery(Query);
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		while(rs.next()){
+			Usuario usuario = new Usuario();
+			usuario.setId(rs.getInt("id"));
+			usuario.setNombre(rs.getString("nombre"));
+			usuario.setPrimerApellido(rs.getString("primerApellido"));
+			usuario.setSegundoApellido(rs.getString("segundoApellido"));
+			usuario.setCorreo(rs.getString("correo"));
+			usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+			usuario.setContrasena(rs.getString("contrasena"));
+			ServicioRol servicioRol = new ServicioRol();
+			Rol rol = servicioRol.obtenerRolPorId(rs.getInt("Rol_id"));
+			usuario.setRol(rol);
+			usuarios.add(usuario);
+		}
+		
+		return usuarios;
 	}
 
 	@Override
@@ -96,12 +129,14 @@ public class DaoUsuario extends AbstractDao<Usuario>{
 		String Query = "SELECT * FROM usuario WHERE "+condicion;
 		ResultSet rs = st.executeQuery(Query);
 		Usuario usuario = new Usuario();
+		
 		if(rs.next()){
 			//System.out.print(Query);
 			usuario.setId(rs.getInt("id"));
 			usuario.setNombre(rs.getString("nombre"));
 			usuario.setPrimerApellido(rs.getString("primerApellido"));
 			usuario.setSegundoApellido(rs.getString("segundoApellido"));
+			
 			usuario.setCorreo(rs.getString("correo"));
 			usuario.setNombreUsuario(rs.getString("nombreUsuario"));
 			usuario.setContrasena(rs.getString("contrasena"));

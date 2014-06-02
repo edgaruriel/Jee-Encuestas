@@ -1,5 +1,7 @@
-$(document).ready(function() {	
-	$('#form').validate({
+
+$(document).ready(function(){	
+	alert("entra el ready");
+	$("#form").validate({
 		rules:{
 			tipopregunta: "required"
 		},

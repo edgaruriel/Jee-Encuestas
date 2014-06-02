@@ -40,6 +40,13 @@ public class DaoPregunta extends AbstractDao<Pregunta>{
 				st.executeUpdate(QueryOpcion);
 			}
 		}
+		
+		if(idTipoPregunta == 3){
+			for(int i=1 ; i<=10; i++){
+				String QueryOpcion = "INSERT INTO opcionesmultiples (opcion, Preguntas_id) VALUES ('"+i+"','"+id+"')";
+				st.executeUpdate(QueryOpcion);
+			}
+		}
 		boolean resultado = true;
 		return resultado;
 	}

@@ -82,9 +82,7 @@ public class ControlLogin extends HttpServlet {
 		response.setContentType("text/html");
 		String usuario = request.getParameter("usuario");
 		String contrasenia = request.getParameter("contrasenia");	
-		
-		
-		
+	
 		boolean respuesta = validarUsuario(usuario, contrasenia);
 		if(respuesta){
 			ServicioUsuario servicioUsuario = new ServicioUsuario();
@@ -94,16 +92,18 @@ public class ControlLogin extends HttpServlet {
 			HttpSession session = request.getSession(true);
 			if(usuarioLogin.getRol().getNombre().equals("CLIENTE")){
 				usuarioLogin.setContactos(servicioContactos.obtenerContactos(usuarioLogin.getId()));
-			
+				RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/indexCliente.jsp");
 				session.setAttribute("USUARIO", usuarioLogin);
+				System.out.println(session.getAttribute("USUARIO"));
 				session.setAttribute("preguntas", null);
-				response.sendRedirect("indexCliente.jsp");
+				dispatcher.forward(request, response);
 			}else if (usuarioLogin.getRol().getNombre().equals("ADMINISTRADOR")) {
-				Administrador admin = crearAdmin(usuarioLogin);				
+				Administrador admin = crearAdmin(usuarioLogin);
+				RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/indexAdmin.jsp");
 				admin.setUsuarios(servicioUsuario.obtenerUsuarios());				
 				session.setAttribute("ADMIN", admin);
 				session.setAttribute("preguntas", null);
-				response.sendRedirect("indexAdmin.jsp");
+				dispatcher.forward(request, response);
 			}
 			
 			}else{
@@ -128,13 +128,8 @@ public class ControlLogin extends HttpServlet {
 		return admin;
 	}
 	
-	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession(false);
-		
-		if(session.getAttribute("USUARIO")==null){
-			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
-			dispatcherMal.forward(request, response);
-		}else{
 		if((ArrayList<Pregunta>)session.getAttribute("preguntas")!=null){
 			ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 			
@@ -146,7 +141,19 @@ public class ControlLogin extends HttpServlet {
 		}
 		
 		session.invalidate();
-		response.sendRedirect("index.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	public void LogOut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("USUARIO")!=null){
+			logOut(request, response);
+		}else if(session.getAttribute("ADMIN")!=null){
+			logOut(request, response);
+		}else{
+			RequestDispatcher dispatcherMal = request.getServletContext().getRequestDispatcher("/index.jsp");
+			dispatcherMal.forward(request, response);
 		}
 	}
 }

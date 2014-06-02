@@ -15,7 +15,7 @@
 			<c:set var="admin" scope="session" value="${sessionScope.ADMIN}"></c:set>
 			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
 			<h1>
-			Bienvenido <c:out value="${user.nombre}"/> 
+			Bienvenido <c:out value="${admin.nombre}"/> 
 			</h1>
 				<br>
 				<h2><a href="usuarios.jsp">Usuarios</a></h2>

@@ -126,7 +126,7 @@ public class ControlEncuesta extends HttpServlet {
 	protected void guardarEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/pageHome.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/listarEncuesta.jsp");
 		HttpSession session = request.getSession(true);
 		Encuesta encuesta = new Encuesta();
 		
@@ -155,11 +155,8 @@ public class ControlEncuesta extends HttpServlet {
 		ServicioEncuesta servicioEncuesta = new ServicioEncuesta();
 		servicioEncuesta.crearEncuesta(encuesta);
 		System.out.println(encuesta);
-		//encuesta.setFechaFin(fechaTermino);
-		//encuesta.setCategoria(categoria);
 		
-		//System.out.println(nombre+categoria+carpeta+fechaActual+fechaTermino+idUsuario);
-		
+		actualizarSession(request, response);
 
 			ArrayList<Pregunta> list = (ArrayList<Pregunta>)session.getAttribute("preguntas");
 			
@@ -305,6 +302,16 @@ public class ControlEncuesta extends HttpServlet {
 		}else{
 			response.sendRedirect("index.jsp");
 		}
+		
+	}
+	
+	private void actualizarSession(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		ServicioCarpeta servicioCarpeta = new ServicioCarpeta();
+		String usuarioID = request.getParameter("usuarioId");
+		ArrayList<Carpeta> nuevaLista = servicioCarpeta.obtenerCarpetas(Integer.parseInt(usuarioID));
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("CARPETAS");
+		session.setAttribute("CARPETAS", nuevaLista);
 		
 	}
 }

@@ -50,8 +50,12 @@ public class Filtro implements Filter {
 		HttpSession session= req.getSession();
 		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
 		
-		if(session.getAttribute("USUARIO")==null){
-			//System.out.println("Sesion nula");
+		if(session.getAttribute("USUARIO")!=null){
+			chain.doFilter(request, response);
+		}else if(session.getAttribute("ADMIN")!=null){
+			chain.doFilter(request, response);
+		}else{
+			System.out.println("Sesion nula");
 			String path = ((HttpServletRequest) request).getRequestURI();
 			
 			//System.out.println(path);
@@ -59,13 +63,10 @@ public class Filtro implements Filter {
 				//System.out.println("crearUsuario.jsp");
 			    chain.doFilter(request, response); // Just continue chain.
 			}else{
-			if(dispatcher!=null){
-				dispatcher.forward(request, response);	
+				if(dispatcher!=null){
+					dispatcher.forward(request, response);	
+				}
 			}
-			}
-		}else{
-			chain.doFilter(request, response);
-			//System.out.println("Sesion no nula");
 		}
 		
 	}

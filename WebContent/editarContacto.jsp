@@ -4,6 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript" src="recursos/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="recursos/jqueryValidation/jquery-validation.js"></script>
+<script type="text/javascript" src="recursos/js/contacto.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Editar contacto</title>
@@ -21,11 +24,11 @@
 		</div>
 		<div id="cuerpo">
 				<p>Editar contacto</p>
-			<a href="contactos.jsp">Atras</a>
+			
 			
 			<c:set var="contacto" scope="session" value="${sessionScope.contacto}"></c:set>
 			
-			<form action="<%=request.getContextPath()%>/ControlContacto?tipo=Actualizar" method="post">	
+			<form id="form" action="<%=request.getContextPath()%>/ControlContacto?tipo=Actualizar" method="post">	
 			<br>
 				<label >Nombre(s):</label>
 				<input type="text" name="nombre" id="nombre" size="20" value="${contacto.nombre}">
@@ -35,6 +38,7 @@
 				<br>		
 			<input type="hidden" id="id" name="id" value="${contacto.id}" >	
 			<input type="submit" id="tipo" name="tipo" value="Actualizar">
+			<input type="button" value="Cancelar" onclick="cancelar();">
 		</form>
 		</div>
 	</div>

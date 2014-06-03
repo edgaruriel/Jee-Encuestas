@@ -57,6 +57,9 @@ public class ControlResponder extends HttpServlet {
 		case "agregar":
 			agregarRespuestas(request,response);
 			break;
+		case "SoloLectura":
+			verSoloLectura(request,response);
+			break;
 		default:
 			paginaDefault(request,response);
 			break;
@@ -68,6 +71,17 @@ public class ControlResponder extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 	
+	public void verSoloLectura(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String idEncuesta = request.getParameter("encuesta");
+		
+		ServicioEncuesta servicioEncuesta = new ServicioEncuesta();
+		Encuesta encuesta = servicioEncuesta.obtenerEncuestaPor(Integer.parseInt(idEncuesta));
+		HttpSession session = request.getSession(true);
+		session.setAttribute("ES_CLIENTE", true);
+		session.setAttribute("VERENCUESTA", encuesta);
+		response.sendRedirect("verEncuesta.jsp");
+	}
+	
 	public void verEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String idEncuesta = request.getParameter("encuesta");
 		String correoSolicitante = request.getParameter("correo");
@@ -77,7 +91,10 @@ public class ControlResponder extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("VERENCUESTA", encuesta);
 		session.setAttribute("SOLICITANTE",correoSolicitante);
-		response.sendRedirect("responderEncuesta.jsp");
+		
+		session.setAttribute("ES_CLIENTE", false);
+		
+		response.sendRedirect("verEncuesta.jsp");
 	}
 	
 	public void agregarRespuestas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

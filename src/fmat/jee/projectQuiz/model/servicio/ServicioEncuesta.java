@@ -96,4 +96,20 @@ public class ServicioEncuesta {
 		return encuesta;
 	}
 	
+	public boolean eliminarEncuesta(int id){
+		DaoEncuesta daoEncuesta = new DaoEncuesta();
+		String condicion = "id="+id;
+		boolean resultado = false;
+		try {
+			daoEncuesta.eliminar(condicion);
+			resultado = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			resultado = false;
+		}
+		
+		return resultado;
+	}
+	
 }

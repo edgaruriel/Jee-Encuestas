@@ -3,6 +3,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript" src="recursos/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="recursos/jqueryValidation/jquery-validation.js"></script>
+<script type="text/javascript" src="recursos/js/contacto.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Insert title here</title>
@@ -21,7 +24,7 @@
 			</div>
 			<div id="cuerpo">
 			<h3>Crear nuevo contacto</h3>
-			<form action="<%=request.getContextPath()%>/ControlContacto?tipo=Agregar" method="post">	
+			<form id="form" action="<%=request.getContextPath()%>/ControlContacto?tipo=Agregar" method="post">	
 			<br>
 				<label >Nombre(s):</label>
 				<input type="text" name="nombre" id="nombre" size="20">
@@ -32,6 +35,7 @@
 				<input type="hidden" name="usuarioId" value="${sessionScope.USUARIO.id}">
 				<br>
 			<input type="submit" value="Agregar">
+			<input type="button" value="Cancelar" onclick="cancelar();">
 		</form>
 			</div>
 	</div>

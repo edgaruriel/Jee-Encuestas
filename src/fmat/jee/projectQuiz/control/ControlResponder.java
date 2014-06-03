@@ -93,14 +93,16 @@ public class ControlResponder extends HttpServlet {
 		session.setAttribute("SOLICITANTE",correoSolicitante);
 		
 		session.setAttribute("ES_CLIENTE", false);
-		
-		response.sendRedirect("verEncuesta.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/verEncuesta.jsp");
+		dispatcher.forward(request, response);
+		//response.sendRedirect("verEncuesta.jsp");
 	}
 	
 	public void agregarRespuestas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		HttpSession session = request.getSession(true);
 		Encuesta encuesta = (Encuesta) session.getAttribute("VERENCUESTA");
 		//System.out.println("Correo: "+request.getParameter("correo"));
+		System.out.println("dasdadadsas "+encuesta);
 		ArrayList<Pregunta> preguntas = encuesta.getPreguntas();
 		encuesta.setCorreo(request.getParameter("correo"));
 		for (Pregunta pregunta : preguntas) {
@@ -138,12 +140,12 @@ public class ControlResponder extends HttpServlet {
 	boolean respuesta =	servicioEncuesta.agregarEncuestaContestada(encuesta);
 		if(respuesta){
 			request.setAttribute("correcto", true);
-			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/responderEncuesta.jsp");
+			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/verEncuesta.jsp");
 			dispatcher.forward(request, response);
 			//response.sendRedirect("responderEncuesta.jsp");
 		}else{
 			request.setAttribute("error", true);
-			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/responderEncuesta.jsp");
+			RequestDispatcher dispatcher = 	request.getServletContext().getRequestDispatcher("/verEncuesta.jsp");
 			dispatcher.forward(request, response);	
 		//	response.sendRedirect("responderEncuesta.jsp");
 		}

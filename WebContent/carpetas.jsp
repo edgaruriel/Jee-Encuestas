@@ -25,10 +25,7 @@
 			<br>
 			<h1>Mis Encuestas. <c:out value="${user.nombre}"/> </h1>
 			<br>
-			
-			<label for="buscar">Buscar: </label>
-	<input id="buscar" name="buscar" value="">
-	<br>
+	
 	<a href="crearCarpeta.jsp">Crear nuevo carpeta personal</a>
 	
 		<c:set var="carpetas" scope="session" value="${sessionScope.CARPETAS}"></c:set>

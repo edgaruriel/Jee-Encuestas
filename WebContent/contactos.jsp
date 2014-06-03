@@ -21,9 +21,7 @@
 		<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
 	</div>
 	<div id="cuerpo">
-		<label for="buscar">Buscar: </label>
-		<input id="buscar" name="buscar" value="">
-		<br>
+		
 		<a href="crearContacto.jsp">Crear nuevo contacto</a>
 		
 		<c:set var="contactos" scope="session" value="${sessionScope.USUARIO.contactos}"></c:set>

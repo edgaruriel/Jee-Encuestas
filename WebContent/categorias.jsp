@@ -26,9 +26,7 @@
 		
 		</div>
 		<div id="cuerpo">
-			<label for="buscar">Buscar: </label>
-			<input id="buscar" name="buscar" value="">
-			<br>
+			
 			<a href="crearCategoria.jsp">Crear nueva categoria</a>
 			
 			<c:set var="categorias" scope="session" value="${sessionScope.CATEGORIAS}"></c:set>
@@ -52,7 +50,7 @@
 							<td>${categoria.id}</td>
 							<td>${categoria.nombre}</td>
 							<td><a href="<%=request.getContextPath()%>/ControlCategoria?tipo=Editar&id=${categoria.id}" >Editar</a> 
-							<a href="#"> Eliminar</a></td>
+							</td>
 						</tr>
 					</c:forEach>
 					</table>

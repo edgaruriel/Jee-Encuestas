@@ -140,7 +140,7 @@ public class ControlEncuesta extends HttpServlet {
 	protected void guardarEncuesta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/listarEncuesta.jsp");
+		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/carpetas.jsp");
 		HttpSession session = request.getSession(true);
 		Encuesta encuesta = new Encuesta();
 		
@@ -154,6 +154,7 @@ public class ControlEncuesta extends HttpServlet {
 		int carpeta = Integer.parseInt(request.getParameter("carpeta"));
 		String fechaActual = request.getParameter("fechaActual");
 		String fechaTermino = "2014-06-25";
+		
 		int idUsuario = Integer.parseInt(request.getParameter("id"));
 		ServicioUsuario servicioUsuario =  new ServicioUsuario();
 		Usuario usuario = servicioUsuario.obtenerDatos(idUsuario);

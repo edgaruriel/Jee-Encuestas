@@ -33,7 +33,7 @@ public class DaoEncuesta extends AbstractDao<Encuesta>{
 		ArrayList<Pregunta> arrayPreguntas = encuesta.getPreguntas();
 		boolean resultado=false;
 		try{
-		st.executeUpdate("INSERT INTO encuesta (nombre, fechaInicio, fechaFin, Usuario_id, CarpetasPersonal_id, Categorias_id) VALUES ('"+nombre+"','2014-05-28','2014-05-31',"+idUsuario+","+carpeta+","+idCategoria+")",java.sql.Statement.RETURN_GENERATED_KEYS);
+		st.executeUpdate("INSERT INTO encuesta (nombre, fechaInicio, fechaFin, Usuario_id, CarpetasPersonal_id, Categorias_id) VALUES ('"+nombre+"','2014-06-04','2014-06-20',"+idUsuario+","+carpeta+","+idCategoria+")",java.sql.Statement.RETURN_GENERATED_KEYS);
 		
 		ResultSet r = st.getGeneratedKeys();
 		int id = 0;

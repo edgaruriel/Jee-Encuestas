@@ -59,7 +59,7 @@ public class Filtro implements Filter {
 			String path = ((HttpServletRequest) request).getRequestURI();
 			
 			//System.out.println(path);
-			if (path.endsWith("/crearUsuario.jsp")||path.endsWith("/ControlLogin")||path.endsWith("/ControlUsuario")) {
+			if (path.endsWith("/crearUsuario.jsp")||path.endsWith("/ControlLogin")||path.endsWith("/ControlUsuario")||path.endsWith("/ControlResponder")) {
 				//System.out.println("crearUsuario.jsp");
 			    chain.doFilter(request, response); // Just continue chain.
 			}else{

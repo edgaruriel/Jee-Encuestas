@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractDao<T> {
-	private static String servidor = "jdbc:mysql://localhost/encuestas";
-	private static String usuarioDB="root";
-	private static String passwordDB="root";
+	private static String servidor = "jdbc:mysql://localhost:3307/encuestas";
+	private static String usuarioDB="jaime";
+	private static String passwordDB="1234";
 	
 	public static Connection getConexion(){
 		Connection conexion=null;

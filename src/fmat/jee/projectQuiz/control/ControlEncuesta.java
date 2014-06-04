@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +17,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
+
+
+
+
+
+
+
+
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+import org.eclipse.jdt.internal.compiler.codegen.Opcodes;
 
 import fmat.jee.projectQuiz.model.dominio.Carpeta;
 import fmat.jee.projectQuiz.model.dominio.Categoria;
@@ -27,6 +50,7 @@ import fmat.jee.projectQuiz.model.dominio.Usuario;
 import fmat.jee.projectQuiz.model.servicio.ServicioCarpeta;
 import fmat.jee.projectQuiz.model.servicio.ServicioCategorias;
 import fmat.jee.projectQuiz.model.servicio.ServicioEncuesta;
+import fmat.jee.projectQuiz.model.servicio.ServicioPreguntas;
 import fmat.jee.projectQuiz.model.servicio.ServicioRol;
 import fmat.jee.projectQuiz.model.servicio.ServicioTipoPregunta;
 import fmat.jee.projectQuiz.model.servicio.ServicioUsuario;
@@ -84,6 +108,9 @@ public class ControlEncuesta extends HttpServlet {
 			break;
 		case "Enlistar":
 			Enlistar(request,response);
+			break;
+		case "VerReporte":
+			verReporte(request,response);
 			break;
 		case "EliminarEncuesta":
 			eliminarEncuesta(request,response);
@@ -320,6 +347,79 @@ public class ControlEncuesta extends HttpServlet {
 		
 	}
 	
+	protected void verReporte(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServicioEncuesta servicioEncuesta = new ServicioEncuesta();
+		ServicioPreguntas servicioPregunta = new ServicioPreguntas();
+		int id = Integer.parseInt(request.getParameter("encuesta"));
+		Encuesta encuesta = servicioEncuesta.obtenerEncuestaPor(id);
+		if(encuesta!=null){
+			ArrayList<Pregunta> preguntas = new ArrayList<>();
+			ArrayList<Respuesta> arreglo = new ArrayList<>();
+			preguntas = encuesta.getPreguntas();
+			int c = 1;
+			for(Pregunta pregunta: preguntas){
+				
+				if(pregunta.getTipoPregunta().getId() == 1){
+					System.out.println("Abierta " + pregunta.getPregunta() + "-Cantidad: " + servicioPregunta.respuestasAbiertas(pregunta));
+					StringBuilder stringBuilder = new StringBuilder();
+					for(int i = 0; i < servicioPregunta.respuestasAbiertas(pregunta).size();i++){
+						 stringBuilder.append(servicioPregunta.respuestasAbiertas(pregunta).get(i).toString()+",  ");
+					}
+					String respuestasAb = stringBuilder.toString();
+					arreglo.add(new Respuesta(c+".- " + pregunta.getPregunta(),respuestasAb));
+				}else{
+					if(pregunta.getTipoPregunta().getId() == 2){
+						StringBuilder stringBuilder = new StringBuilder();
+						for(int i = 0; i < pregunta.getOpciones().size(); i++){
+							OpcionMultiple opcion = pregunta.getOpciones().get(i);
+							
+							int cantidad = servicioPregunta.obtenerRespuestasPorOpcion(opcion.getId());
+							stringBuilder.append(opcion.getOpcion() + ":" + cantidad+",  ");
+							System.out.println("Opcion " + opcion.getOpcion() + "-Cantidad: " + cantidad + " id:"+opcion.getId());
+						}
+						String respuestasAb = stringBuilder.toString();
+						arreglo.add(new Respuesta(c+".- " + pregunta.getPregunta(),respuestasAb));
+					}else{
+						if(pregunta.getTipoPregunta().getId() == 3){
+							StringBuilder stringBuilder = new StringBuilder();
+							for(int i = 0; i < pregunta.getOpciones().size(); i++){
+								OpcionMultiple opcion = pregunta.getOpciones().get(i);
+								
+								int cantidad = servicioPregunta.obtenerRespuestasPorOpcion(opcion.getId());
+								stringBuilder.append(opcion.getOpcion() + ":" + cantidad + "  -");
+								System.out.println("Opcion " + opcion.getOpcion() + "-Cantidad: " + cantidad + " id:"+opcion.getId());
+							}
+							String respuestasAb = stringBuilder.toString();
+							arreglo.add(new Respuesta(c+".- " + pregunta.getPregunta(),respuestasAb));
+						}else{
+							System.out.println("Respuesta invalida");
+						}
+					}
+				}
+				c++;
+			}
+			
+			try{
+				JasperReport reporte = (JasperReport)JRLoader.loadObjectFromFile("C:\\Users\\user\\Documents\\Jee-Encuestas\\WebContent\\recursos\\reportes\\reporte.jasper");
+				Map parametros = new HashMap<>();
+				parametros.put("nombre", encuesta.getNombre());
+				parametros.put("arreglo", arreglo);
+				//JasperPrint print = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
+				JasperPrint print = JasperFillManager.fillReport(reporte, parametros, new JRBeanArrayDataSource(arreglo.toArray()));
+				JasperViewer view = new JasperViewer(print);
+				view.setTitle("Reporte: " + encuesta.getNombre());
+				view.setVisible(true);
+				
+			}catch(JRException e){
+				 e.printStackTrace();
+			}
+			//actualizarSession(request,response);
+			//response.sendRedirect("carpetas.jsp");
+		}else{
+			response.sendRedirect("indexCliente.jsp");
+		}
+	}
+	
 	private void actualizarSession(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		ServicioCarpeta servicioCarpeta = new ServicioCarpeta();
 		HttpSession session = request.getSession(true);
@@ -331,4 +431,38 @@ public class ControlEncuesta extends HttpServlet {
 		session.setAttribute("CARPETAS", nuevaLista);
 		
 	}
+	
+	public class Respuesta{
+		
+		private String pregunta;
+		private String reporte;
+		
+		public String getPregunta() {
+			return pregunta;
+		}
+
+		public void setPregunta(String pregunta) {
+			this.pregunta = pregunta;
+		}
+
+		public String getReporte() {
+			return reporte;
+		}
+
+		public void setReporte(String reporte) {
+			this.reporte = reporte;
+		}
+
+		public Respuesta(String pregunta, String reporte) {
+			super();
+			this.pregunta = pregunta;
+			this.reporte = reporte;
+		}
+		
+		public Respuesta getMe()
+		 {
+		  return this;
+		 }
+	}
+	
 }

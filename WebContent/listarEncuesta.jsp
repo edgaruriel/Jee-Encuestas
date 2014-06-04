@@ -59,6 +59,7 @@
 						<a href="<%=request.getContextPath()%>/ControlResponder?tipo=SoloLectura&encuesta=${encuesta.id}">Ver</a> 
 						<a href="<%=request.getContextPath()%>/ControlEmail?tipo=seleccionarEncuesta&encuesta=${encuesta.id}">Enviar</a>
 						<a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=EliminarEncuesta&encuesta=${encuesta.id}">Eliminar</a>
+						<a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=VerReporte&encuesta=${encuesta.id}">Reporte</a>
 						</td>
 					</tr>
 				</c:forEach>

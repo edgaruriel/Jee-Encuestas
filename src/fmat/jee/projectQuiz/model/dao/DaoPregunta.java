@@ -166,5 +166,36 @@ public class DaoPregunta extends AbstractDao<Pregunta>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public int consultarRespuestas(String condicion) throws SQLException {
+		// TODO Auto-generated method stub
+		int cantidad = 0;
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		String Query = "SELECT * FROM opcionmultiple_tiene_respuestas AS opr WHERE "+condicion;
+		
+		ResultSet rs = st.executeQuery(Query);
+		while(rs.next()){
+			cantidad++;
+		}
+
+		return cantidad;
+	}
+	
+	public ArrayList<String> consultarRespuestasAbiertas(String condicion) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection conexion;
+		conexion = (Connection) AbstractDao.getConexion();		
+		java.sql.Statement st = conexion.createStatement();
+		ArrayList<String> respuestas = new ArrayList<>();
+		String Query = "SELECT * FROM respuesta AS r WHERE "+condicion;
+		
+		ResultSet rs = st.executeQuery(Query);
+		while(rs.next()){
+			respuestas.add(rs.getString("respuesta"));
+		}
+		return respuestas;
+	}
 
 }

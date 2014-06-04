@@ -37,12 +37,12 @@ public class ServicioEncuesta {
 		return ultima;
 	}
 	
-	public boolean validarEncuestaPor(String correo){
+	public boolean validarEncuestaPor(Encuesta encuesta){
 		DaoEncuesta daoEncuesta = new DaoEncuesta();
 		boolean respuesta = false;
 		try {
-			respuesta =	daoEncuesta.consultarContestado("correo ='"+correo+"'");
-		
+			respuesta =	daoEncuesta.consultarContestado("correo ='"+encuesta.getCorreo()+"' AND Encuesta_id ="+encuesta.getId());
+			System.out.println("ya contesto? " + respuesta);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,7 +55,7 @@ public class ServicioEncuesta {
 		DaoEncuesta daoEncuesta = new DaoEncuesta();
 	boolean	respuesta = false;
 
-	if(!validarEncuestaPor(encuesta.getCorreo())){
+	if(!validarEncuestaPor(encuesta)){
 		try {
 			daoEncuesta.agregarRespuestas(encuesta);
 			respuesta = true;

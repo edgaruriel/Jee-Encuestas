@@ -7,25 +7,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="recursos/css/index.css" media="screen" />
 <title>Insert title here</title>
 </head>
 <body>
+<div id="superior">
+<img id="logoImg" alt="logo" src="recursos/imagenes/logo.png">
+<label id="lblogo" >Mi Encuesta</label>
+</div>
+<div id="centro">
 <form action="ControlLogin?tipo=LogIn" method="post">	
 	<br>
-		<label >Usuario:</label>
+	
+		<label class="lblusuario" >Usuario:</label>
 		<input type="text" name="usuario" size="20">
 	<br>	
-		<label>Contraseña:</label>
+		<label class="lblusuario" >Contraseña:</label>
 		<input type="password" name="contrasenia" size="10">		
 	<br>
-	<input type="submit" value="Aceptar">
+	
+	<input class="boton" type="submit" value="Aceptar">
+	
 </form>
-
 <a href="crearUsuario.jsp">Crear Usuario</a>
+</div>
+
 
 <c:choose>
 <c:when test="${requestScope.error != null}">
-	<font color="red">Usuario o Contraseña incorrectas</font>
+	<label class="error" >Usuario o Contraseña incorrectas</label>
 </c:when>
 </c:choose>
 

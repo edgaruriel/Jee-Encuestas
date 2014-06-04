@@ -1,23 +1,160 @@
 #contenedor{
 
-padding:10px; 
-overflow:hidden; 
+border-style: solid;
+border-color: #d44d4d;
+border-width: 6px;
+background: #ffffff;
+height:100%;
 }
 
+body, html{
+	height:90%;
+	font-family: Arial;
+}
 #menu{
-float:left;     
-padding:10px; 
-
+float:left;
+background:#d44d4d;
+height:100%;
 width:300px; 
-margin:40px; 
 
+}
+#nuevo{
+	text-decoration: none;
+	text-align:center;
+	display:block;
+	width: 320px;
+	height: 40px;
+	color: #d44d4d;
+	position: absolute;
+	font-family: Arial;
+	font-size: 18px;
+	border-style: solid;
+	border-color: #d44d4d;
+	border-width: 5px;
+	padding-top:10px;
+	top:120px;
+	right:20px;
+}
+
+#nuevo:hover{
+	text-decoration: none;
+	text-align:center;
+	display:block;
+	width: 320px;
+	height: 40px;
+	color: #ffffff;
+	position: absolute;
+	font-family: Arial;
+	font-size: 18px;
+	border-style: solid;
+	border-color: #d44d4d;
+	border-width: 5px;
+	padding-top:10px;
+	background:#d44d4d;
+	top:120px;
+	right:20px;
+}
+.carpeta:link{
+	text-decoration:none;
+	font-family:Arial;
+	font-weight:bold;
+	z-index: 100;
+	color:#d44d4d;
+	display:block;
+	text-align:center;
+	position:relative;
+	top:-60px;
+}
+.carpeta:visited{
+	z-index: 100;
+	color:#d44d4d;
+	display:block;
+	text-align:center;
+	position:relative;
+	top:-60px;
+}
+.carpeta:hover{
+	color:#7acd94;
+}
+
+#encuesta{
+	color:#9b8585;
+	display:block;
+	text-align:center;
+	position:relative;
+	top:-60px;
+}
+
+#lblogo{
+	position: absolute;
+	margin-top: 60px;
+	margin-left: 220px;	
+	color: #d44d4d;
+	font-size: 40px;
+	font-family: Arial;
+}
+
+#logoImg{
+	width: 120px;
+	position: absolute;
+	margin-top: 1px;
+	margin-left: 80px;	
+}
+ #logout{
+ 	text-decoration:none;
+ 	position:absolute;
+ 	right:40px;
+ 	top:40px;
+ 	color:#000000;
+ 	font-family: Arial;
+	font-size: 18px;
+ }
+ 
+ #logout:hover{
+ 	color:#d44d4d;
+ }
+ 
+#superior{
+	background: #ffffff;
+	position:relative;
+	height:100px;
+	padding: 6px 6px 6px 6px;
 }
 
 #cuerpo{
 float:left;       
 padding:10px; 
-
+background: #ffffff;
 width:420px; 
-margin:40px; 
+margin:0px; 
 
+}
+table, th, td{
+	border: none;
+}
+.menuop:link, .menuop:visited{
+	display:block;
+	border-width: 1px 0px 1px 6px;
+	border-style:solid;
+	border-color: #d44d4d;
+	width:280px;
+	height:60px;
+	font-family: Arial;
+	font-size: 18px;
+	color: #ffffff;
+	background: #d44d4d;
+	padding-left:10px;
+	position:relative;
+	top: 0px;
+	padding-top:30px;
+	margin: 0px;
+	left: 0px;
+}
+
+.menuop:hover {
+	border-color: #ffffff;
+}
+
+.menuop:active {
+	background: #c14848;
 }

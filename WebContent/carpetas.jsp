@@ -9,24 +9,28 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Mis Encuestas</title>
 </head>
-<body bgcolor="#FE2E2E">
+<body >
+<div id="superior">
+<img id="logoImg" alt="logo" src="recursos/imagenes/logo.png">
+<label id="lblogo" >Mi Encuesta</label>
+</div>
 	<div id="contenedor">
 		<div id="menu">
 		<c:set var="user" scope="session" value="${sessionScope.USUARIO}"></c:set>	
-			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
-			<br>
-			<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
-			<br>
-			<h3><a href="contactos.jsp">Mis contactos</a> </h3>
-			<br>
-			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${user.id}">Mi Cuenta</a></h3>
+			<a id="logout" href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >[ Salir ]</a>
+
+			<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
+
+			<h3><a class="menuop" href="contactos.jsp">Mis contactos</a> </h3>
+
+			<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${user.id}">Mi Cuenta</a></h3>
 		</div>
 		<div id="cuerpo">
 			<br>
 			<h1>Mis Encuestas. <c:out value="${user.nombre}"/> </h1>
 			<br>
 	
-	<a href="crearCarpeta.jsp">Crear nuevo carpeta personal</a>
+	<a id="nuevo" href="crearCarpeta.jsp">Crear nuevo carpeta personal</a>
 	
 		<c:set var="carpetas" scope="session" value="${sessionScope.CARPETAS}"></c:set>
 		<table  border="1" style="width:300px">
@@ -47,8 +51,9 @@
 					
 						<td>
 							<table>
-								<tr><td><a href="<%=request.getContextPath()%>/ControlEncuesta?tipo=Enlistar&carpeta=${carpeta.id}">${carpeta.nombre}</a></td></tr>
-								<tr><td>Encuestas ${fn:length(carpeta.encuestas)}</td></tr>
+								<tr><td><img id="carpetalogo" alt="carpeta" src="recursos/imagenes/carpeta.png"></td></tr>
+								<tr><td><a class="carpeta" href="<%=request.getContextPath()%>/ControlEncuesta?tipo=Enlistar&carpeta=${carpeta.id}">${carpeta.nombre}</a></td></tr>
+								<tr><td><label id="encuesta">Encuestas ${fn:length(carpeta.encuestas)}</label></td></tr>
 							</table>
 						</td>
 						

@@ -9,20 +9,24 @@
 <link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
 <title>Lista de contactos</title>
 </head>
-<body bgcolor="#FE2E2E">
+<body bgcolor>
+<div id="superior">
+<img id="logoImg" alt="logo" src="recursos/imagenes/logo.png">
+<label id="lblogo" >Mi Encuesta</label>
+</div>
 <div id="contenedor">
 	<div id="menu">
-		<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
-		<br>
-		<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
-		<br>
-		<h3><a href="contactos.jsp">Mis contactos</a> </h3>
-		<br>
-		<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+		<a id="logout" href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >[ Salir ]</a>
+
+		<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
+
+		<h3><a class="menuop" href="contactos.jsp">Mis contactos</a> </h3>
+
+		<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
 	</div>
 	<div id="cuerpo">
 		
-		<a href="crearContacto.jsp">Crear nuevo contacto</a>
+		<a id="nuevo" href="crearContacto.jsp">Crear nuevo contacto</a>
 		
 		<c:set var="contactos" scope="session" value="${sessionScope.USUARIO.contactos}"></c:set>
 		<c:choose>

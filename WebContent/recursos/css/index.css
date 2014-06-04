@@ -1,0 +1,113 @@
+@CHARSET "ISO-8859-1";
+body{
+	background: #d44d4d;
+}
+.boton {
+	left: 80px;
+	position:relative;
+	top:60px;
+	font-family: Arial;
+	font-size: 18px;
+	color: #ffffff;
+	border-style: solid;
+	border-color: #ffffff;
+	border-width: 5px;
+	width: 320px;
+	height: 60px;
+	background: #d44d4d;
+}
+
+.boton:active {
+	position:relative;
+	top:61px;
+}
+a:link, a:visited{
+	left:160px;
+	top: 150px;
+	margin-right:auto;
+	margin-left:auto;
+	position:relative;
+	bottom:60px;
+	font-family: Arial;
+	font-size: 18px;
+	color: #ffffff;
+	background: #d44d4d;
+}
+
+a:hover {
+	color: #7d3939;
+}
+
+a:active {
+	color: #7d3939;
+}
+
+
+.boton:hover {
+	background: #be4343;
+}
+#logoImg{
+	position: absolute;
+	margin-top: 140px;
+	margin-left: 400px;	
+}
+
+#centro{
+	padding-top: 60px;
+	width: 700px ;
+  	margin-left: auto ;
+  	margin-right: auto ;
+	
+}
+
+.lblusuario{
+	color: #ffffff;
+	font-size: 28px;
+	font-family: Arial;
+}
+
+.error{
+	color: #fffb8f;
+	font-size: 28px;
+	font-family: Arial;
+	position: fixed;
+	left: 550px;
+	top: 520px;
+}
+
+#lblogo{
+	position: absolute;
+	margin-top: 200px;
+	margin-left: 650px;	
+	color: #d44d4d;
+	font-size: 60px;
+	font-family: Arial;
+}
+
+#superior{
+	background: #ffffff;
+	position:relative;
+	height:300px;
+	padding: 6px 6px 6px 6px;
+}
+
+input[type=text]{
+	font-family: Arial;
+	font-size: 20px;
+	width: 300px;
+	height: 40px;
+	padding-left: 6px;
+	margin: 6px 6px 6px 58px;
+	color: #d44d4d;
+}
+
+input[type=password]{
+	padding-left: 6px;
+	color: #d44d4d;
+	font-family: Arial;
+	font-size: 20px;
+	width: 300px;
+	height: 40px;
+	margin: 6px 6px 6px 12px;
+}
+

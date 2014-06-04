@@ -13,19 +13,23 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div id="superior">
+<img id="logoImg" alt="logo" src="recursos/imagenes/logo.png">
+<label id="lblogo" >Mi Encuesta</label>
+</div>
 <div id="contenedor">
 	<c:set var="esCliente" scope="session" value="${sessionScope.ES_CLIENTE}"></c:set>
 
 	<c:choose>
 		<c:when test="${esCliente == true}">
 				<div id="menu">
-					<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
-					<br>
-					<h3><a href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
-					<br>
-					<h3><a href="contactos.jsp">Mis contactos</a> </h3>
-					<br>
-					<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
+					<a id="logout" href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >[ Salir ]</a>
+
+					<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlCarpeta?tipo=Cargar">Mis Encuestas</a> </h3>
+				
+					<h3><a class="menuop" href="contactos.jsp">Mis contactos</a> </h3>
+					
+					<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${sessionScope.USUARIO.id}">Mi Cuenta</a></h3>
 				</div>
 				
 		</c:when>

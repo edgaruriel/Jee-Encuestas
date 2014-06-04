@@ -6,28 +6,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" type="text/css" href="recursos/css/menu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="recursos/css/menu_admin.css" media="screen" />
 <title>Insert title here</title>
 </head>
-<body bgcolor="#0489B1">
+<body bgcolor>
+<div id="superior">
+<img id="logoImg" alt="logo" src="recursos/imagenes/logo.png">
+<label id="lblogo" >Mi Encuesta</label>
+</div>
 	<div id="contenedor">
 		<div id="menu">
 			<c:set var="admin" scope="session" value="${sessionScope.ADMIN}"></c:set>
-			<a href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >Salir</a>
+			<a id="logout" href="<%=request.getContextPath()%>/ControlLogin?tipo=LogOut" >[ Salir ]</a>
 			<h1>
 			Bienvenido <c:out value="${user.nombre}"/> 
 			</h1>
-				<br>
-				<h2><a href="usuarios.jsp">Usuarios</a></h2>
-				<br>
-				<h3><a href="<%=request.getContextPath()%>/ControlCategoria?tipo=Cargar">Categorias</a> </h3>
-				<br>
-			<h3><a href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${admin.id}">Mi Cuenta</a></h3>
+				
+				<h2><a class="menuop" href="usuarios.jsp">Usuarios</a></h2>
+				
+				<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlCategoria?tipo=Cargar">Categorias</a> </h3>
+				
+			<h3><a class="menuop" href="<%=request.getContextPath()%>/ControlUsuario?tipo=Editar&id=${admin.id}">Mi Cuenta</a></h3>
 		
 		</div>
 		<div id="cuerpo">
 			
-			<a href="crearCategoria.jsp">Crear nueva categoria</a>
+			<a id="nuevo" href="crearCategoria.jsp">Crear nueva categoria</a>
 			
 			<c:set var="categorias" scope="session" value="${sessionScope.CATEGORIAS}"></c:set>
 			<c:choose>
